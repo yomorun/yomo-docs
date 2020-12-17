@@ -2,14 +2,13 @@
 
 YoMo 是一个为边缘计算领域打造的低时延流式数据处理框架，基于 QUIC Transport 协议通讯，以 Functional Reactive Programming 为编程范式，构建可靠、安全的低时延实时计算应用，挖掘5G潜力，释放实时计算价值。
 
-## 🚀 3分钟构建流式计算（一下内容待翻译）
+## 🚀 3分钟构建流式计算（以下内容待翻译）
 
 ### 1. Install the current release
 
-Create a directory named `yomotest` and `cd` into it.
+创建一个名为 `yomotest` 的目录
 ```
-% mkdir yomotest
-% cd yomotest
+% mkdir yomotest && cd $_
 ```
 Make the current directory the root of a module by using `go mod init`.
 ```
