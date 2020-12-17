@@ -1,7 +1,7 @@
 {
   "name": "yomo-docs",
   "version": "1.0.0",
-  "description": "",
+  "description": "http://docs.yomo.run",
   "main": "index.js",
   "scripts": {
     "dev": "next",
@@ -9,7 +9,7 @@
     "build": "next build"
   },
   "author": "fiftyloops",
-  "license": "Apache",
+  "license": "MIT",
   "dependencies": {
     "next": "^10.0.3",
     "nextra": "^0.3.1",

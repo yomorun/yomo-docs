@@ -1,5 +1,7 @@
 # yomo-docs
 
+https://docs.yomo.run
+
 如果遇到：
 ```bash
 (node:66930) UnhandledPromiseRejectionWarning: TypeError: Cannot read property '1' of null

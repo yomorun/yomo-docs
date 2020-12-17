@@ -1,8 +1,8 @@
 # YoMo
 
-YoMo is an open-source Streaming Serverless Framework for building low-latency edge computing applications. Built atop QUIC transport protocol and functional reactive programming interface, it makes real-time data processing reliable, secure, and easy.
+YoMo 是一个为边缘计算领域打造的低时延流式数据处理框架，基于 QUIC Transport 协议通讯，以 Functional Reactive Programming 为编程范式，构建可靠、安全的低时延实时计算应用，挖掘5G潜力，释放实时计算价值。
 
-## Getting Started
+## 🚀 3分钟构建流式计算（一下内容待翻译）
 
 ### 1. Install the current release
 
