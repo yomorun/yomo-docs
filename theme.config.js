@@ -18,6 +18,7 @@ export default {
   head: <>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="YoMo is an open-source Streaming Serverless Framework for building low-latency edge computing applications. Built atop QUIC transport protocol and functional reactive programming interface, it makes real-time data processing reliable, secure, and easy." />
+    <link rel="icon" type="image/png" href="/favicon.png"/>
   </>,
   i18n: [
     { locale: 'en', text: 'English' },
