@@ -121,7 +121,7 @@ First off, thank you for considering making contributions. It's people like you 
 
 ## Feedback
 
-Email us at [yomo@cel.la](mailto:yomo@cel.la). Any feedback would be greatly appreciated!
+If you have any questions, please feel free to come to our [discussion board](https://github.com/yomorun/yomo/discussions). Any feedback would be greatly appreciated!
 
 ## License
 
