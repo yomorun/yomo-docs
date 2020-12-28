@@ -23,6 +23,7 @@ const ScrollDown = (prop) => {
           span {
             display: block;
             text-align: center;
+            margin-top:2em;
           }
         `}
       </style>

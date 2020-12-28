@@ -143,8 +143,11 @@ First off, thank you for considering making contributions. It's people like you 
 <div id="tip1" className="cut_line"></div>
 
 <div className='  plate blue '>
+
 ## Feedback
+
 Email us at [yomo@cel.la](mailto:yomo@cel.la). Any feedback would be greatly appreciated!
+
 </div>
 
 <div id="tip1" className="cut_line"></div>

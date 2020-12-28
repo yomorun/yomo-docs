@@ -2,7 +2,7 @@ import React from 'react'
 
 const HeadImg = () => {
   return (
-    <div>
+    <div className='big'>
       <div className='img_div'>
       <img src="/171.svg"></img>
       <img src="/121.svg"></img>
@@ -20,6 +20,10 @@ const HeadImg = () => {
           .img_div {
             display: flex;
             justify-content: center;
+          }
+          .big{
+            margin: 1em 0;
+
           }
         
         `}

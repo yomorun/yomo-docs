@@ -1,25 +1,38 @@
+import ScrollDown from '../components/ScrollDown'
+import HeadImg from '../components/HeadImg'
+
 # YoMo
 
 YoMo is an open-source Streaming Serverless Framework for building low-latency edge computing applications. Built atop QUIC transport protocol and functional reactive programming interface, it makes real-time data processing reliable, secure, and easy.
 
-## Getting Started
+<HeadImg></HeadImg>
+
+<div className=' plate violet'>
+
+## Getting Started👨‍💻
 
 ### 1. Install the current release
 
 Create a directory named `yomotest` and `cd` into it.
+
 ```
 % mkdir yomotest
 % cd yomotest
 ```
+
 Make the current directory the root of a module by using `go mod init`.
+
 ```
 % go mod init yomotest
 ```
+
 Download and install.
+
 ```
 % go get -u github.com/yomorun/yomo
 ```
-### 2. Create file `echo.go`
+
+### 2. Create file `echo.go` 📃
 
 To check that YoMo is installed correctly on your device, create a file named `echo.go` and copy the following code to your file:
 
@@ -33,7 +46,7 @@ import (
 func main() {
   // run echo plugin and monitor port 4241; data will be sent by yomo egde
   // yomo.Run(&EchoPlugin{}, "0.0.0.0:4241")
-  
+
   // a method for development and testing; when connected to the Internet, it will
   // automatically connect to the development server of yomo.run
   // after successfully connected to the server, the plugin will receive the value
@@ -70,7 +83,7 @@ func (p EchoPlugin) Mold() interface{} {
 }
 ```
 
-### 3. Build and run
+### 3. Build and run  🏃‍♀️ 🏃‍♀️
 
 1. Run `go run echo.go` from the terminal. If YoMo is installed successfully, you will see the following message:
 
@@ -84,28 +97,38 @@ name:yomo!✅
 name:yomo!✅
 ^Csignal: interrupt
 ```
+
 Congratulations! You have written and tested your first YoMo app.
 
-Note: If you want to use a complex Mold, please refer to  [yomo-echo-plugin](https://github.com/yomorun/yomo-echo-plugin).
+Note: If you want to use a complex Mold, please refer to [yomo-echo-plugin](https://github.com/yomorun/yomo-echo-plugin).
 
+<ScrollDown content="Scroll down to learn more"></ScrollDown>
+
+</div>
+
+<div id="tip1" className="cut_line"></div>
+
+<div className='plate blue '>
 ## Illustration
 
 ![yomo-arch](https://yomo.run/yomo-arch.png)
 
 ### YoMo focuses on：
 
-- Industrial IoT:
-	- On the IoT device side, real-time communication with a latency of less than 10ms is required.
-	- On the smart device side, AI performing with a high hash rate is required.
-- YoMo consists of 2 parts：
-	- `yomo-edge`: deployed on company intranet; responsible for receiving device data and executing each yomo-plugin in turn according to the configuration
-	- `yomo-plugin`: can be deployed on public cloud, private cloud, and `yomo-edge-server`
+- Industrial IoT: - On the IoT device side, real-time communication with a latency of less than 10ms is required. - On the smart device side, AI performing with a high hash rate is required.
+- YoMo consists of 2 parts： - `yomo-edge`: deployed on company intranet; responsible for receiving device data and executing each yomo-plugin in turn according to the configuration - `yomo-plugin`: can be deployed on public cloud, private cloud, and `yomo-edge-server`
 
-### Why YoMo
+### Why YoMo 🤔❓
 
 - Based on QUIC (Quick UDP Internet Connection) protocol for data transmission, which uses the User Datagram Protocol (UDP) as its basis instead of the Transmission Control Protocol (TCP); significantly improves the stability and throughput of data transmission.
 - A self-developed `yomo-codec` optimizes decoding performance. For more information, visit [its own repository](https://github.com/yomorun/yomo-codec) on GitHub.
 - Based on stream computing, which improves speed and accuracy when dealing with data handling and analysis; simplifies the complexity of stream-oriented programming.
+
+</div>
+
+<div id="tip1" className="cut_line"></div>
+
+<div className=' plate violet '>
 
 ## Contributing
 
@@ -119,10 +142,23 @@ First off, thank you for considering making contributions. It's people like you 
 
 - We have also adopted a [code of conduct](https://github.com/yomorun/yomo/blob/master/CODE_OF_CONDUCT.md) that we expect project participants to adhere to.
 
+</div>
+
+<div id="tip1" className="cut_line"></div>
+
+<div className='  plate blue '>
+
 ## Feedback
 
 If you have any questions, please feel free to come to our [discussion board](https://github.com/yomorun/yomo/discussions). Any feedback would be greatly appreciated!
 
+</div>
+
+<div id="tip1" className="cut_line"></div>
+
+<div className='  plate violet '>
 ## License
 
 [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+
+</div>

@@ -7,7 +7,7 @@ export default {
   nextLinks: true,
   prevLinks: true,
   search: false,
-  customSearch: false,
+  customSearch: null,
   darkMode: false,
   footer: true,
   footerText: <>© {new Date().getFullYear()} CELLA, Inc. All rights reserved.</>,
