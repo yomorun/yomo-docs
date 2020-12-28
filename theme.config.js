@@ -6,14 +6,26 @@ export default {
   titleSuffix: '',
   nextLinks: true,
   prevLinks: true,
-  search: true,
-  customSearch: null,
-  darkMode: true,
+  search: false,
+  customSearch: false,
+  darkMode: false,
   footer: true,
   footerText: <>© {new Date().getFullYear()} CELLA, Inc. All rights reserved.</>,
   footerEditOnGitHubLink: false,
   logo: <>
-    <span><b>YoMo</b> Streaming Serverless Framework</span>
+    <span>
+      <img src="/favicon.ico"/>
+      <b>YoMo</b> Streaming Serverless Framework</span>
+        <style jsx>{
+              `{
+                img{
+                  display:inline-block;
+                  width:2rem;
+                  margin-right:1rem;
+                }
+              }`
+      }
+  </style>
   </>,
   head: <>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

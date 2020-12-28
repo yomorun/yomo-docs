@@ -1,44 +1,57 @@
+import ScrollDown from '../components/ScrollDown'
+import HeadImg from '../components/HeadImg'
+
 # YoMo
 
-YoMo 是一个为边缘计算领域打造的低时延流式数据处理框架，基于 QUIC Transport 协议通讯，以 Functional Reactive Programming 为编程范式，构建可靠、安全的低时延实时计算应用，挖掘5G潜力，释放实时计算价值。
+YoMo 是一个为边缘计算领域打造的低时延流式数据处理框架，基于 QUIC Transport 协议通讯，以 Functional Reactive Programming 为编程范式，构建可靠、安全的低时延实时计算应用，挖掘 5G 潜力，释放实时计算价值。
 
-## 🚀 3分钟构建流式计算（以下内容待翻译）
+<HeadImg></HeadImg>
 
-### 1：准备工作
+## <div style={{marginTop:'20px'}}>🚀 3 分钟构建流式计算（以下内容待翻译）</div>
 
-创建一个名为 `yomotest` 的目录
+<div className=' plate violet'>
+
+### 1. 准备工作 👨‍💻
+
+创建一个名为 <span>`yomotest`</span> 的目录
+
 ```
 % mkdir yomotest && cd $_
 ```
+
 Make the current directory the root of a module by using `go mod init`.
+
 ```
 % go mod init yomotest
 ```
+
 Download and install.
-```
+
+```s
 % go get -u github.com/yomorun/yomo
 ```
-### 2. Create file `echo.go`
 
-To check that YoMo is installed correctly on your device, create a file named `echo.go` and copy the following code to your file:
+### 2. Create file `echo.go` 📃
+
+To check that YoMo is installed correzbctly on your device, create a file named `echo.go` and copy the following code to your file:
 
 ```go 
 package main
 
 import (
-	"github.com/yomorun/yomo/pkg/yomo"
+"github.com/yomorun/yomo/pkg/yomo"
 )
 
 func main() {
-  // run echo plugin and monitor port 4241; data will be sent by yomo egde
-  // yomo.Run(&EchoPlugin{}, "0.0.0.0:4241")
-  
-  // a method for development and testing; when connected to the Internet, it will
-  // automatically connect to the development server of yomo.run
-  // after successfully connected to the server, the plugin will receive the value
-  // of the key specified by the Observed() method every 2 seconds
-  // yomo.RunDev(&EchoPlugin{}, "localhost:4241")
-  yomo.RunDevWith(&EchoPlugin{}, "localhost:4241", yomo.OutputEchoData)
+// run echo plugin and monitor port 4241; data will be sent by yomo egde
+// yomo.Run(&EchoPlugin{}, "0.0.0.0:4241")
+`yomotest`
+// a method for development and testing; when connected to the Internet, it will
+// automatically connect to the development server of yomo.run
+// after successfully connected to the server, the plugin will receive the value
+// of the key specified by the Observed() method every 2 seconds
+// yomo.RunDev(&EchoPlugin{}, "localhost:4241")
+yomo.RunDevWith(&EchoPlugin{}, "localhost:4241", yomo.OutputEchoData)
 }
 
 // EchoPlugin - a yomo plugin that converts received data into strings and appends
@@ -49,27 +62,27 @@ type EchoPlugin struct{}
 // to tell yomo which key the plugin should monitor; the parameter value is what the plugin
 // needs to process
 func (p *EchoPlugin) Handle(value interface{}) (interface{}, error) {
-	return value.(string) + "✅", nil
+return value.(string) + "✅", nil
 }
 
 // Observed - returns a value of type string, which is the key monitored by echo plugin;
 // the corresponding value will be passed into the Handle() method as an object
 func (p EchoPlugin) Observed() string {
-	return "0x11" //name
+return "0x11" //name
 }
 
 // Name - sets the name of a given plugin p (mainly used for debugging)
 func (p *EchoPlugin) Name() string {
-	return "EchoPlugin"
+return "EchoPlugin"
 }
 
 // Mold describe the struct of `Observed` value
 func (p EchoPlugin) Mold() interface{} {
-	return ""
+return ""
 }
 ```
 
-### 3. Build and run
+### 3. Build and run 🏃‍♀️ 🏃‍♀️
 
 1. Run `go run echo.go` from the terminal. If YoMo is installed successfully, you will see the following message:
 
@@ -83,30 +96,38 @@ name:yomo!✅
 name:yomo!✅
 ^Csignal: interrupt
 ```
-Congratulations! You have written and tested your first YoMo app.
 
-Note: If you want to use a complex Mold, please refer to  [yomo-echo-plugin](https://github.com/yomorun/yomo-echo-plugin).
+Congratulations! 🎉✨ You have written and tested your first YoMo app.
 
+Note: If you want to use a complex Mold, please refer to [yomo-echo-plugin](https://github.com/yomorun/yomo-echo-plugin).
+<ScrollDown content="下拉学习更多"></ScrollDown>
+
+</div>
+<div id="tip1" className="cut_line"></div>
+
+<div className='plate blue '>
 ## Illustration
 
 ![yomo-arch](https://yomo.run/yomo-arch.png)
 
 ### YoMo focuses on：
 
-- Industrial IoT:
-	- On the IoT device side, real-time communication with a latency of less than 10ms is required.
-	- On the smart device side, AI performing with a high hash rate is required.
-- YoMo consists of 2 parts：
-	- `yomo-edge`: deployed on company intranet; responsible for receiving device data and executing each yomo-plugin in turn according to the configuration
-	- `yomo-plugin`: can be deployed on public cloud, private cloud, and `yomo-edge-server`
+- Industrial IoT: - On the IoT device side, real-time communication with a latency of less than 10ms is required. - On the smart device side, AI performing with a high hash rate is required.wsm
+- YoMo consists of 2 parts： - `yomo-edge`: deployed on company intranet; responsible for receiving device data and executing each yomo-plugin in turn according to the configuration - `yomo-plugin`: can be deployed on public cloud, private cloud, and `yomo-edge-server`
 
-### Why YoMo
+### Why YoMo 🤔❓
 
 - Based on QUIC (Quick UDP Internet Connection) protocol for data transmission, which uses the User Datagram Protocol (UDP) as its basis instead of the Transmission Control Protocol (TCP); significantly improves the stability and throughput of data transmission.
 - A self-developed `yomo-codec` optimizes decoding performance. For more information, visit [its own repository](https://github.com/yomorun/yomo-codec) on GitHub.
 - Based on stream computing, which improves speed and accuracy when dealing with data handling and analysis; simplifies the complexity of stream-oriented programming.
 
-## Contributing
+</div>
+
+<div id="tip1" className="cut_line"></div>
+
+<div className=' plate violet '>
+
+## Contributings
 
 First off, thank you for considering making contributions. It's people like you that make YoMo better. There are many ways in which you can participate in the project, for example:
 
@@ -117,11 +138,18 @@ First off, thank you for considering making contributions. It's people like you 
 - Read our [contributing guidelines](https://github.com/yomorun/yomo/blob/master/CONTRIBUTING.md) to learn about what types of contributions we are looking for.
 
 - We have also adopted a [code of conduct](https://github.com/yomorun/yomo/blob/master/CODE_OF_CONDUCT.md) that we expect project participants to adhere to.
+</div>
 
+<div id="tip1" className="cut_line"></div>
+
+<div className='  plate blue '>
 ## Feedback
-
 Email us at [yomo@cel.la](mailto:yomo@cel.la). Any feedback would be greatly appreciated!
+</div>
 
+<div id="tip1" className="cut_line"></div>
+
+<div className='  plate violet '>
 ## License
-
 [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+</div>
