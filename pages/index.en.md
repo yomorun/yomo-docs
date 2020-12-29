@@ -9,98 +9,102 @@ YoMo is an open-source Streaming Serverless Framework for building low-latency e
 
 <div className='plate violet'>
 
-## Getting Started👨‍💻
+## Getting Started 👨‍💻
 
-### 1. Install the current release
+### 1. Install CLI
 
-Create a directory named `yomotest` and `cd` into it.
-
-```
-% mkdir yomotest
-% cd yomotest
-```
-
-Make the current directory the root of a module by using `go mod init`.
-
-```
-% go mod init yomotest
+```bash
+# Make sure to use $GOPATH since golang requires the plugin and the main
+# application to be highly coupled
+$ echo $GOPATH
 ```
 
-Download and install.
+If `$GOPATH` is not set, check here first: [Setting $GOPATH and $GOBIN](#optional-set-gopath-and-gobin).
 
+```bash
+$ GO111MODULE=off go get github.com/yomorun/yomo
+$ cd $GOPATH/src/github.com/yomorun/yomo
+$ make install
 ```
-% go get -u github.com/yomorun/yomo
+
+![YoMo Tutorial 1](/tutorial-1.png)
+
+### 2. Create a Serverless App
+
+```bash
+$ mkdir -p $GOPATH/src/github.com/{YOUR_GITHUB_USERNAME} && cd $_
+$ yomo init yomo-app-demo
+2020/12/29 13:03:57 Initializing the Serverless app...
+2020/12/29 13:04:00 ✅ Congratulations! You have initialized the serverless app successfully.
+2020/12/29 13:04:00 🎉 You can enjoy the YoMo Serverless via the command: yomo dev
+$ cd yomo-app-demo
 ```
 
-### 2. Create file `echo.go` 📃
+![YoMo Tutorial 2](/tutorial-2.png)
 
-To check that YoMo is installed correctly on your device, create a file named `echo.go` and copy the following code to your file:
+YoMo CLI will automatically create an `app.go` with the following content:
 
-```go 
+```go
 package main
 
 import (
-	"github.com/yomorun/yomo/pkg/yomo"
+	"context"
+	"fmt"
+	"time"
+
+	"github.com/yomorun/yomo/pkg/rx"
 )
 
-func main() {
-  // run echo plugin and monitor port 4241; data will be sent by yomo egde
-  // yomo.Run(&EchoPlugin{}, "0.0.0.0:4241")
-
-  // a method for development and testing; when connected to the Internet, it will
-  // automatically connect to the development server of yomo.run
-  // after successfully connected to the server, the plugin will receive the value
-  // of the key specified by the Observed() method every 2 seconds
-  // yomo.RunDev(&EchoPlugin{}, "localhost:4241")
-  yomo.RunDevWith(&EchoPlugin{}, "localhost:4241", yomo.OutputEchoData)
+var printer = func(_ context.Context, i interface{}) (interface{}, error) {
+	value := i.(float32)
+	fmt.Println("serverless get value:", value)
+	return value, nil
 }
 
-// EchoPlugin - a yomo plugin that converts received data into strings and appends
-// additional information to the strings; the modified data will flow to the next plugin
-type EchoPlugin struct{}
+// Handler will handle data in a reactive way
+func Handler(rxstream rx.RxStream) rx.RxStream {
+	stream := rxstream.
+		Y3Decoder("0x10", float32(0)).
+		AuditTime(100 * time.Millisecond).
+		Map(printer).
+		StdOut()
 
-// Handle - this method will be called when data flows in; the Observed() method is used
-// to tell yomo which key the plugin should monitor; the parameter value is what the plugin
-// needs to process
-func (p *EchoPlugin) Handle(value interface{}) (interface{}, error) {
-	return value.(string) + "✅", nil
-}
-
-// Observed - returns a value of type string, which is the key monitored by echo plugin;
-// the corresponding value will be passed into the Handle() method as an object
-func (p EchoPlugin) Observed() string {
-	return "0x11" //name
-}
-
-// Name - sets the name of a given plugin p (mainly used for debugging)
-func (p *EchoPlugin) Name() string {
-	return "EchoPlugin"
-}
-
-// Mold describe the struct of `Observed` value
-func (p EchoPlugin) Mold() interface{} {
-	return ""
+	return stream
 }
 ```
 
-### 3. Build and run  🏃‍♀️ 🏃‍♀️
+### 3. Build and Run
 
-Run `go run echo.go` from the terminal. If YoMo is installed successfully, you will see the following message:
+Run `yomo dev` from the terminal. You should see the following message:
+
+![YoMo Tutorial 3](/tutorial-3.png)
+
+Congratulations! You have created your first YoMo application.
+
+### Optional: Setting $GOPATH and $GOBIN
+
+For the current session only:
 
 ```bash
-% go run echo.go
-[EchoPlugin:6031]2020/07/06 22:14:20 plugin service start... [localhost:4241]
-name:yomo!✅
-name:yomo!✅
-name:yomo!✅
-name:yomo!✅
-name:yomo!✅
-^Csignal: interrupt
+export GOPATH=~/.go
+export PATH=$GOPATH/bin:$PATH
 ```
 
-Congratulations! You have written and tested your first YoMo app.
+To permanently set these variables, you need to edit `.zshrc` or `.bashrc`:
 
-Note: If you want to use a complex Mold, please refer to [yomo-echo-plugin](https://github.com/yomorun/yomo-echo-plugin).
+For `zsh` users:
+
+```bash
+echo "export GOPATH=~/.go" >> .zshrc
+echo "path+=$GOPATH/bin" >> .zshrc
+```
+
+For `bash` users:
+
+```bash
+echo 'export GOPATH=~/.go' >> .bashrc
+echo 'export PATH="$GOPATH/bin:$PATH"' >> ~/.bashrc
+```
 
 <ScrollDown content="Scroll down to learn more"></ScrollDown>
 
@@ -109,24 +113,24 @@ Note: If you want to use a complex Mold, please refer to [yomo-echo-plugin](http
 <div id="tip1" className="cut_line"></div>
 
 <div className='plate blue'>
-## Illustration
+
+## Demo
 
 ![yomo-arch](https://yomo.run/yomo-arch.png)
 
-### YoMo focuses on:
+</div>
 
-- Industrial IoT:
-  - On the IoT device side, real-time communication with a latency of less than 10ms is required.
-  - On the smart device side, AI performing with a high hash rate is required.
-- YoMo consists of 2 parts:
-  - `yomo-edge`: deployed on company intranet; responsible for receiving device data and executing each yomo-plugin in turn according to the configuration
-  - `yomo-plugin`: can be deployed on public cloud, private cloud, and `yomo-edge-server`
+<div id="tip1" className="cut_line"></div>
 
-### Why YoMo 🤔❓
+<div className='plate blue'>
 
-- Based on QUIC (Quick UDP Internet Connection) protocol for data transmission, which uses the User Datagram Protocol (UDP) as its basis instead of the Transmission Control Protocol (TCP); significantly improves the stability and throughput of data transmission.
-- A self-developed `yomo-codec` optimizes decoding performance. For more information, visit [its own repository](https://github.com/yomorun/yomo-codec) on GitHub.
-- Based on stream computing, which improves speed and accuracy when dealing with data handling and analysis; simplifies the complexity of stream-oriented programming.
+## 🎯 Focuses on computing at the edge
+
+YoMo is best for:
+- Making latency-sensitive applications.
+- Dealing with high network latency and packet loss.
+- Handling continuous high-frequency data with stream processing.
+- Building complex systems with streaming serverless architecture.
 
 </div>
 
@@ -136,7 +140,7 @@ Note: If you want to use a complex Mold, please refer to [yomo-echo-plugin](http
 
 ## Contributing
 
-First off, thank you for considering making contributions. It's people like you that make YoMo better. There are many ways in which you can participate in the project, for example:
+First off, thank you for considering making contributions. It's people like you that make YoMo better. There are many ways in which you can participate in this project, for example:
 
 - File a [bug report](https://github.com/yomorun/yomo/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBUG%5D). Be sure to include information like what version of YoMo you are using, what your operating system is, and steps to recreate the bug.
 - Suggest a new feature.

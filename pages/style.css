@@ -92,6 +92,10 @@ code {
   font-family: "Lucida Console", "Courier New", monospace;
 }
 
+li:first-child {
+  margin-top: -10px;
+}
+
 li li{
   list-style-type: circle;
   margin: 0;
