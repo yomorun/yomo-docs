@@ -153,6 +153,8 @@ Email us at [yomo@cel.la](mailto:yomo@cel.la). Any feedback would be greatly app
 <div id="tip1" className="cut_line"></div>
 
 <div className='  plate violet '>
+
 ## License
 [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+
 </div>
