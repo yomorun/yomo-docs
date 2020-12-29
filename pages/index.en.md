@@ -7,7 +7,7 @@ YoMo is an open-source Streaming Serverless Framework for building low-latency e
 
 <HeadImg></HeadImg>
 
-<div className=' plate violet'>
+<div className='plate violet'>
 
 ## Getting Started👨‍💻
 
@@ -85,7 +85,7 @@ func (p EchoPlugin) Mold() interface{} {
 
 ### 3. Build and run  🏃‍♀️ 🏃‍♀️
 
-1. Run `go run echo.go` from the terminal. If YoMo is installed successfully, you will see the following message:
+Run `go run echo.go` from the terminal. If YoMo is installed successfully, you will see the following message:
 
 ```bash
 % go run echo.go
@@ -108,15 +108,19 @@ Note: If you want to use a complex Mold, please refer to [yomo-echo-plugin](http
 
 <div id="tip1" className="cut_line"></div>
 
-<div className='plate blue '>
+<div className='plate blue'>
 ## Illustration
 
 ![yomo-arch](https://yomo.run/yomo-arch.png)
 
-### YoMo focuses on：
+### YoMo focuses on:
 
-- Industrial IoT: - On the IoT device side, real-time communication with a latency of less than 10ms is required. - On the smart device side, AI performing with a high hash rate is required.
-- YoMo consists of 2 parts： - `yomo-edge`: deployed on company intranet; responsible for receiving device data and executing each yomo-plugin in turn according to the configuration - `yomo-plugin`: can be deployed on public cloud, private cloud, and `yomo-edge-server`
+- Industrial IoT:
+  - On the IoT device side, real-time communication with a latency of less than 10ms is required.
+  - On the smart device side, AI performing with a high hash rate is required.
+- YoMo consists of 2 parts:
+  - `yomo-edge`: deployed on company intranet; responsible for receiving device data and executing each yomo-plugin in turn according to the configuration
+  - `yomo-plugin`: can be deployed on public cloud, private cloud, and `yomo-edge-server`
 
 ### Why YoMo 🤔❓
 
@@ -128,25 +132,22 @@ Note: If you want to use a complex Mold, please refer to [yomo-echo-plugin](http
 
 <div id="tip1" className="cut_line"></div>
 
-<div className=' plate violet '>
+<div className='plate violet'>
 
 ## Contributing
 
 First off, thank you for considering making contributions. It's people like you that make YoMo better. There are many ways in which you can participate in the project, for example:
 
 - File a [bug report](https://github.com/yomorun/yomo/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBUG%5D). Be sure to include information like what version of YoMo you are using, what your operating system is, and steps to recreate the bug.
-
 - Suggest a new feature.
-
 - Read our [contributing guidelines](https://github.com/yomorun/yomo/blob/master/CONTRIBUTING.md) to learn about what types of contributions we are looking for.
-
 - We have also adopted a [code of conduct](https://github.com/yomorun/yomo/blob/master/CODE_OF_CONDUCT.md) that we expect project participants to adhere to.
 
 </div>
 
 <div id="tip1" className="cut_line"></div>
 
-<div className='  plate blue '>
+<div className='plate blue'>
 
 ## Feedback
 
@@ -156,7 +157,7 @@ If you have any questions, please feel free to come to our [discussion board](ht
 
 <div id="tip1" className="cut_line"></div>
 
-<div className='  plate violet '>
+<div className='plate violet'>
 
 ## License
 

@@ -91,3 +91,12 @@ h6 {
 code {
   font-family: "Lucida Console", "Courier New", monospace;
 }
+
+li li{
+  list-style-type: circle;
+  margin: 0;
+}
+
+li li:first-child {
+  margin-top: -20px;
+}
