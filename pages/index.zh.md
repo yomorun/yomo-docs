@@ -3,158 +3,167 @@ import HeadImg from '../components/HeadImg'
 
 # YoMo
 
-YoMo 是一个为边缘计算领域打造的低时延流式数据处理框架，基于 QUIC Transport 协议通讯，以 Functional Reactive Programming 为编程范式，构建可靠、安全的低时延实时计算应用，挖掘 5G 潜力，释放实时计算价值。
+YoMo 是一个为边缘计算领域打造的低时延流式数据处理框架，基于 QUIC 协议通讯，以 Functional Reactive Programming 为编程范式，构建可靠、安全的低时延实时计算应用，挖掘 5G 潜力，释放实时计算价值。
 
 <HeadImg></HeadImg>
 
-## <div style={{marginTop:'20px'}}>🚀 3 分钟构建流式计算（以下内容待翻译）</div>
+<div className='plate violet'>
 
-<div className=' plate violet'>
+## 快速入门 👨‍💻
 
-### 1. 准备工作 👨‍💻
+### 1. 安装 CLI
 
-创建一个名为 <span>`yomotest`</span> 的目录
-
-```
-% mkdir yomotest && cd $_
-```
-
-Make the current directory the root of a module by using `go mod init`.
-
-```
-% go mod init yomotest
+```bash
+# 请使用 $GOPATH，因为 go 语言需要 plugin 和 main 的高度耦合
+$ echo $GOPATH
 ```
 
-Download and install.
+如果未设置 `$GOPATH`，请先看这一节：[设置 $GOPATH 和 $GOBIN](#optional-set-gopath-and-gobin)。
 
-```s
-% go get -u github.com/yomorun/yomo
+```bash
+$ GO111MODULE=off go get github.com/yomorun/yomo
+$ cd $GOPATH/src/github.com/yomorun/yomo
+$ make install
 ```
 
-### 2. Create file `echo.go` 📃
+![YoMo 教程 1](/tutorial-1.png)
 
-To check that YoMo is installed correzbctly on your device, create a file named `echo.go` and copy the following code to your file:
+### 2. 创建一个 Serverless 应用
 
-```go 
+```bash
+$ mkdir -p $GOPATH/src/github.com/{YOUR_GITHUB_USERNAME} && cd $_
+$ yomo init yomo-app-demo
+2020/12/29 13:03:57 Initializing the Serverless app...
+2020/12/29 13:04:00 ✅ Congratulations! You have initialized the serverless app successfully.
+2020/12/29 13:04:00 🎉 You can enjoy the YoMo Serverless via the command: yomo dev
+$ cd yomo-app-demo
+```
+
+![YoMo 教程 2](/tutorial-2.png)
+
+YoMo CLI 会自动创建带有以下内容的 `app.go` 文件：
+
+```go
 package main
 
 import (
-"github.com/yomorun/yomo/pkg/yomo"
+	"context"
+	"fmt"
+	"time"
+
+	"github.com/yomorun/yomo/pkg/rx"
 )
 
-func main() {
-// run echo plugin and monitor port 4241; data will be sent by yomo egde
-// yomo.Run(&EchoPlugin{}, "0.0.0.0:4241")
-`yomotest`
-// a method for development and testing; when connected to the Internet, it will
-// automatically connect to the development server of yomo.run
-// after successfully connected to the server, the plugin will receive the value
-// of the key specified by the Observed() method every 2 seconds
-// yomo.RunDev(&EchoPlugin{}, "localhost:4241")
-yomo.RunDevWith(&EchoPlugin{}, "localhost:4241", yomo.OutputEchoData)
+var printer = func(_ context.Context, i interface{}) (interface{}, error) {
+	value := i.(float32)
+	fmt.Println("serverless get value:", value)
+	return value, nil
 }
 
-// EchoPlugin - a yomo plugin that converts received data into strings and appends
-// additional information to the strings; the modified data will flow to the next plugin
-type EchoPlugin struct{}
+// Handler 将以 Rx 的方式处理数据
+func Handler(rxstream rx.RxStream) rx.RxStream {
+	stream := rxstream.
+		Y3Decoder("0x10", float32(0)).
+		AuditTime(100 * time.Millisecond).
+		Map(printer).
+		StdOut()
 
-// Handle - this method will be called when data flows in; the Observed() method is used
-// to tell yomo which key the plugin should monitor; the parameter value is what the plugin
-// needs to process
-func (p *EchoPlugin) Handle(value interface{}) (interface{}, error) {
-return value.(string) + "✅", nil
-}
-
-// Observed - returns a value of type string, which is the key monitored by echo plugin;
-// the corresponding value will be passed into the Handle() method as an object
-func (p EchoPlugin) Observed() string {
-return "0x11" //name
-}
-
-// Name - sets the name of a given plugin p (mainly used for debugging)
-func (p *EchoPlugin) Name() string {
-return "EchoPlugin"
-}
-
-// Mold describe the struct of `Observed` value
-func (p EchoPlugin) Mold() interface{} {
-return ""
+	return stream
 }
 ```
 
-### 3. Build and run 🏃‍♀️ 🏃‍♀️
+### 3. 编译并运行
 
-1. Run `go run echo.go` from the terminal. If YoMo is installed successfully, you will see the following message:
+从 terminal 运行 `yomo dev`，可以看到：
+
+![YoMo 教程 3](/tutorial-3.png)
+
+恭喜你！你创建了你的第一个 YoMo 应用。
+
+### Optional: 设置 $GOPATH 和 $GOBIN
+
+针对当前 session：
 
 ```bash
-% go run echo.go
-[EchoPlugin:6031]2020/07/06 22:14:20 plugin service start... [localhost:4241]
-name:yomo!✅
-name:yomo!✅
-name:yomo!✅
-name:yomo!✅
-name:yomo!✅
-^Csignal: interrupt
+export GOPATH=~/.go
+export PATH=$GOPATH/bin:$PATH
 ```
 
-Congratulations! 🎉✨ You have written and tested your first YoMo app.
+要永久设置这些变量，需要编辑 `.zshrc` 或 `.bashrc`：
 
-Note: If you want to use a complex Mold, please refer to [yomo-echo-plugin](https://github.com/yomorun/yomo-echo-plugin).
-<ScrollDown content="下拉学习更多"></ScrollDown>
+`zsh` 用户：
+
+```bash
+echo "export GOPATH=~/.go" >> .zshrc
+echo "path+=$GOPATH/bin" >> .zshrc
+```
+
+`bash` 用户：
+
+```bash
+echo 'export GOPATH=~/.go' >> .bashrc
+echo 'export PATH="$GOPATH/bin:$PATH"' >> ~/.bashrc
+```
+
+<ScrollDown content="了解更多"></ScrollDown>
 
 </div>
+
 <div id="tip1" className="cut_line"></div>
 
-<div className='plate blue '>
-## Illustration
+<div className='plate blue'>
+
+## 示意图
 
 ![yomo-arch](https://yomo.run/yomo-arch.png)
 
-### YoMo focuses on：
+</div>
 
-- Industrial IoT: - On the IoT device side, real-time communication with a latency of less than 10ms is required. - On the smart device side, AI performing with a high hash rate is required.wsm
-- YoMo consists of 2 parts： - `yomo-edge`: deployed on company intranet; responsible for receiving device data and executing each yomo-plugin in turn according to the configuration - `yomo-plugin`: can be deployed on public cloud, private cloud, and `yomo-edge-server`
+<div id="tip1" className="cut_line"></div>
 
-### Why YoMo 🤔❓
+<div className='plate blue'>
 
-- Based on QUIC (Quick UDP Internet Connection) protocol for data transmission, which uses the User Datagram Protocol (UDP) as its basis instead of the Transmission Control Protocol (TCP); significantly improves the stability and throughput of data transmission.
-- A self-developed `yomo-codec` optimizes decoding performance. For more information, visit [its own repository](https://github.com/yomorun/yomo-codec) on GitHub.
-- Based on stream computing, which improves speed and accuracy when dealing with data handling and analysis; simplifies the complexity of stream-oriented programming.
+## 🎯 YoMo 专注于边缘计算
+
+适合用来：
+- 开发对延迟敏感的应用程序。
+- 处理高网络延迟和数据包丢失的情况。
+- 通过流式编程处理连续的高频数据。
+- 使用流式 Serverless 架构构建复杂的系统。
 
 </div>
 
 <div id="tip1" className="cut_line"></div>
 
-<div className=' plate violet '>
+<div className='plate violet'>
 
-## Contributings
+## 贡献代码
 
-First off, thank you for considering making contributions. It's people like you that make YoMo better. There are many ways in which you can participate in the project, for example:
+首先，感谢你想要为 YoMo 做出贡献，是你这样的人使 YoMo 变得更好。你可以通过多种方式参与这个项目，例如：
 
-- File a [bug report](https://github.com/yomorun/yomo/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBUG%5D). Be sure to include information like what version of YoMo you are using, what your operating system is, and steps to recreate the bug.
-
-- Suggest a new feature.
-
-- Read our [contributing guidelines](https://github.com/yomorun/yomo/blob/master/CONTRIBUTING.md) to learn about what types of contributions we are looking for.
-
-- We have also adopted a [code of conduct](https://github.com/yomorun/yomo/blob/master/CODE_OF_CONDUCT.md) that we expect project participants to adhere to.
-</div>
-
-<div id="tip1" className="cut_line"></div>
-
-<div className='  plate blue '>
-
-## Feedback
-
-Email us at [yomo@cel.la](mailto:yomo@cel.la). Any feedback would be greatly appreciated!
+- 提交 [bug](https://github.com/yomorun/yomo/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBUG%5D)。请包括 YoMo 的版本、你的操作系统以及如何复现 bug 等信息。
+- 提出一项新功能。
+- 阅读我们的 [代码贡献说明](https://github.com/yomorun/yomo/blob/master/CONTRIBUTING.md)，了解我们需要什么类型的贡献。
+- 我们还采用了 [这些行为准则](https://github.com/yomorun/yomo/blob/master/CODE_OF_CONDUCT.md)，希望项目参与者能够遵守。
 
 </div>
 
 <div id="tip1" className="cut_line"></div>
 
-<div className='  plate violet '>
+<div className='plate blue'>
 
-## License
+## 反馈
+
+如果你有疑问，可以随时到我们的 [GitHub 讨论区](https://github.com/yomorun/yomo/discussions) 留言，任何反馈都很欢迎。
+
+</div>
+
+<div id="tip1" className="cut_line"></div>
+
+<div className='plate violet'>
+
+## 开源协议
+
 [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 </div>
