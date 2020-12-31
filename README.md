@@ -1,6 +1,6 @@
-# yomo-docs
+# YoMo Website
 
-https://docs.yomo.run
+https://yomo.run
 
 # Deploy to Vercel.com
 
