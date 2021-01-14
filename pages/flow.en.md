@@ -1,6 +1,6 @@
 # yomo-flow
 
-## What is yomo-flow？
+## What is yomo-flow?
 
 `yomo-flow` is a `Streaming Serverless` function, the users only need to write the business logic code in this function to process the stream data.
 For example:
@@ -17,9 +17,9 @@ func Handler(rxstream rx.RxStream) rx.RxStream {
 }
 ```
 
-## What can yomo-flow do？
+## What can yomo-flow do?
 
-YoMo uses [Functional Reactive Programming](https://en.wikipedia.org/wiki/Functional_reactive_programming) for programming paradigm，the input parameter of `yomo-flow` is an `RxStream`，the users can use the [operators](http://reactivex.io/documentation/operators.html) in [Rx](http://reactivex.io/) to process the stream data.
+YoMo uses [Functional Reactive Programming](https://en.wikipedia.org/wiki/Functional_reactive_programming) for programming paradigm, the input parameter of `yomo-flow` is an `RxStream`, the users can use the [operators](http://reactivex.io/documentation/operators.html) in [Rx](http://reactivex.io/) to process the stream data.
 
 ![Rx](/flow/rx.png)
 
@@ -33,7 +33,7 @@ YoMo uses [Functional Reactive Programming](https://en.wikipedia.org/wiki/Functi
 
 ![TakeLast](/flow/takeLast.png)
 
-## How to write yomo-flow？
+## How to write yomo-flow?
 
 ### 1. Install CLI
 
@@ -109,7 +109,7 @@ Congratulations! You have created your first yomo-flow.
 
 ### 4. Modify the code to your business code
 
-1) YoMo encodes the data via [Y3 Codec](https://github.com/yomorun/y3-codec-golang), the `Handler` method in `yomo-flow`, the first step is decoding the data via `Y3`, the first parameter of `Y3Decoder` is the observe `key`，the second parameter uses to store the `decode` value。
+1) YoMo encodes the data via [Y3 Codec](https://github.com/yomorun/y3-codec-golang), the `Handler` method in `yomo-flow`, the first step is decoding the data via `Y3`, the first parameter of `Y3Decoder` is the observe `key`, the second parameter uses to store the `decode` value.
 
 2) Use [operators](http://reactivex.io/documentation/operators.html) to process the stream data.
 
