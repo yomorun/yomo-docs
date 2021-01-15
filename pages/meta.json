@@ -2,5 +2,6 @@
   "index": "Home",
   "source": "yomo-source",
   "flow": "yomo-flow",
-  "sink": "yomo-sink"
+  "sink": "yomo-sink",
+  "zipper": "yomo-zipper"
 }
