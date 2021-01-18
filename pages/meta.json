@@ -3,5 +3,6 @@
   "source": "yomo-source",
   "flow": "yomo-flow",
   "sink": "yomo-sink",
-  "zipper": "yomo-zipper"
+  "zipper": "yomo-zipper",
+  "rx": "Rx"
 }

@@ -19,7 +19,7 @@ func Handler(rxstream rx.RxStream) rx.RxStream {
 
 ## yomo-flow 能做什么？
 
-YoMo 以 [Functional Reactive Programming](https://en.wikipedia.org/wiki/Functional_reactive_programming) 为编程范式，`yomo-flow` 的输入数据为 `RxStream`，您可以使用 [Rx](http://reactivex.io/) 的各种 [operators](http://reactivex.io/documentation/operators.html) 对 stream 进行操作。
+针对连续高频产生数据的实时计算场景，YoMo 以 [Functional Reactive Programming](https://en.wikipedia.org/wiki/Functional_reactive_programming) 为编程范式，大幅降低面向 stream 编程的复杂度。YoMo 全程使用 `QUIC` 协议传输数据，`yomo-flow` 将 `QUIC Stream` 抽象为 `RxStream`，您可以使用 [Rx](/rx) 提供的各种 `operators` 对 stream 进行操作。
 
 ![Rx](/flow/rx.png)
 
@@ -32,6 +32,8 @@ YoMo 以 [Functional Reactive Programming](https://en.wikipedia.org/wiki/Functio
 #### 使用 [TakeLast](http://reactivex.io/documentation/operators/takelast.html) 获取最后 n 条数据
 
 ![TakeLast](/flow/takeLast.png)
+
+> 点击[这里](/rx#rxstream-支持的-operators)参考更多的 operators。
 
 ## 如何编写 yomo-flow？
 

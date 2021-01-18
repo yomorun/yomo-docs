@@ -19,7 +19,7 @@ func Handler(rxstream rx.RxStream) rx.RxStream {
 
 ## What can yomo-flow do?
 
-YoMo uses [Functional Reactive Programming](https://en.wikipedia.org/wiki/Functional_reactive_programming) for programming paradigm, the input parameter of `yomo-flow` is an `RxStream`, the users can use the [operators](http://reactivex.io/documentation/operators.html) in [Rx](http://reactivex.io/) to process the stream data.
+For the real-time processing scenario of continuous high-frequency data, YoMo uses [Functional Reactive Programming](https://en.wikipedia.org/wiki/Functional_reactive_programming) for programming paradigm to reduce the complexity of `streaming computing`. YoMo uses `QUIC` protocol to transfer data, and abstracts `QUIC Stream` into `RxStream` in [yomo-flow](/flow), the users can use the [operators](/rx#supported-operators-in-rxstream) in [Rx](/rx) to process the stream data.
 
 ![Rx](/flow/rx.png)
 
