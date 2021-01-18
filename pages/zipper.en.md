@@ -88,6 +88,12 @@ $ yomo run example/sink/app.go -p 4141
 2021/01/15 16:13:31 ✅ Listening on 0.0.0.0:4141
 ```
 
+YoMo also provides the following examples for `yomo-sink`, you can choose one to experience a more realistic scene.
+
+- [yomo-sink-faunadb-example](https://github.com/yomorun/yomo-sink-faunadb-example) provides an example of storing the data in `FaunaDB`.
+- [yomo-sink-socketio-server-example](https://github.com/yomorun/yomo-sink-socketio-server-example) provides an example of receiving the real-time noise decibel value and use `socket.io server` to broadcast it to `Web` page.
+- [yomo-sink-socket-io-example](https://github.com/yomorun/yomo-sink-socket-io-example) provides an example of receiving the noise decibel value from `socket.io server` and show it on a `React` page.
+
 #### 4. Run yomo-source
 
 Use [yomo-source-example](https://github.com/yomorun/yomo-source-example) as an example to send the mocking noise decibel value. You can change it to the actual `yomo-source` which you want to run.
@@ -106,6 +112,10 @@ $ go run main.go
 2021/01/15 16:18:11 ✅ Emit 17.846315 to yomo-zipper
 2021/01/15 16:18:11 ✅ Emit 166.903183 to yomo-zipper
 ```
+
+YoMo also provides the following example:
+
+[yomo-source-mqtt-broker-starter](https://github.com/yomorun/yomo-source-mqtt-broker-starter) provides an example of receive `MQTT` messages and connect to YoMo over `QUIC`. If you are using IoT devices based on the `MQTT` protocol, you can refer to this example to connect the MQTT messages as a `yomo-source`.
 
 #### 5. yomo-zipper receiving data and performing real-time streaming computing
 

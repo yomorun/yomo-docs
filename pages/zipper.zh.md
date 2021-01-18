@@ -87,6 +87,12 @@ $ yomo run example/sink/app.go -p 4141
 2021/01/15 16:13:31 ✅ Listening on 0.0.0.0:4141
 ```
 
+YoMo 还提供以下几种 `yomo-sink` 的示例，您也可以选择使用以下的 example 体验更贴合真实的场景。
+
+- [yomo-sink-faunadb-example](https://github.com/yomorun/yomo-sink-faunadb-example) 提供将数据保存到 `FaunaDB` 的示例。
+- [yomo-sink-socketio-server-example](https://github.com/yomorun/yomo-sink-socketio-server-example) 提供接收噪声分贝数据并通过 `socket.io server` 提供数据给 `Web` 页面展示的示例。
+- [yomo-sink-socket-io-example](https://github.com/yomorun/yomo-sink-socket-io-example) 提供前端 `React` 页面接收并显示 `socket.io server` 噪声分贝数据的示例。
+
 #### 4. 运行 yomo-source
 
 以 [yomo-source-example](https://github.com/yomorun/yomo-source-example) 为例，运行 `yomo-source` 发送模拟噪声分贝值给 `yomo-zipper`。您也可以修改该步骤为运行您实际想运行的 `yomo-source`。
@@ -105,6 +111,10 @@ $ go run main.go
 2021/01/15 16:18:11 ✅ Emit 17.846315 to yomo-zipper
 2021/01/15 16:18:11 ✅ Emit 166.903183 to yomo-zipper
 ```
+
+YoMo 还提供以下的示例：
+
+- [yomo-source-mqtt-broker-starter](https://github.com/yomorun/yomo-source-mqtt-broker-starter) 提供接收 `MQTT` 协议的消息并发送给 YoMo 的示例。如果您正在使用基于 `MQTT` 协议的 IoT 设备，您可以参考本示例简单方便的将 MQTT 消息数据当成 `yomo-source`。
 
 #### 5. yomo-zipper 接收数据并执行全流程实时计算
 
