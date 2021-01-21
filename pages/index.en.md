@@ -145,6 +145,7 @@ echo 'export PATH="$GOPATH/bin:$PATH"' >> ~/.bashrc
 ## 🎯 Focuses on computing at the edge
 
 YoMo is best for:
+
 - Making latency-sensitive applications.
 - Dealing with high network latency and packet loss.
 - Handling continuous high-frequency data with stream processing.

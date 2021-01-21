@@ -128,9 +128,9 @@ Congratulations! You have created your first yomo-flow.
 
 ### 4. Modify the code to your business code
 
-1) YoMo encodes the data via [Y3 Codec](https://github.com/yomorun/y3-codec-golang), the `Handler` method in `yomo-flow`, the first step is decoding the data via `Y3`, the first parameter of `Y3Decoder` is the observe `key`, the second parameter uses to store the `decode` value.
+1. YoMo encodes the data via [Y3 Codec](https://github.com/yomorun/y3-codec-golang), the `Handler` method in `yomo-flow`, the first step is decoding the data via `Y3`, the first parameter of `Y3Decoder` is the observe `key`, the second parameter uses to store the `decode` value.
 
-2) Use [operators](http://reactivex.io/documentation/operators.html) to process the stream data.
+2. Use [operators](http://reactivex.io/documentation/operators.html) to process the stream data.
 
 ### Optional: Setting $GOPATH and $GOBIN
 

@@ -129,9 +129,9 @@ func Handler(rxstream rx.RxStream) rx.RxStream {
 
 ### 4. 修改代码为您的业务逻辑
 
-1) YoMo 的数据传输使用高效的 [Y3 Codec](https://github.com/yomorun/y3-codec-golang) 进行编码，在 `yomo-flow` 的 `Handler` 方法里，第一步是使用 `Y3` 进行解码，您只需要修改 `Y3Decoder` 方法的第一个参数为您想监听的 `key`，第二参数为您要解码的值。
+1. YoMo 的数据传输使用高效的 [Y3 Codec](https://github.com/yomorun/y3-codec-golang) 进行编码，在 `yomo-flow` 的 `Handler` 方法里，第一步是使用 `Y3` 进行解码，您只需要修改 `Y3Decoder` 方法的第一个参数为您想监听的 `key`，第二参数为您要解码的值。
 
-2) 使用相应的 [operators](http://reactivex.io/documentation/operators.html) 方法对 stream 进行操作。
+2. 使用相应的 [operators](http://reactivex.io/documentation/operators.html) 方法对 stream 进行操作。
 
 ### Optional: 设置 $GOPATH 和 $GOBIN
 
