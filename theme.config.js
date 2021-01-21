@@ -1,7 +1,7 @@
 export default {
   repository: 'https://github.com/yomorun/yomo',
-  docsRepository: 'https://github.com/10cella/yomo-docs',
-  branch: 'master',
+  docsRepository: 'https://github.com/yomorun/yomo-docs',
+  branch: 'main',
   path: '/',
   titleSuffix: '',
   nextLinks: true,
