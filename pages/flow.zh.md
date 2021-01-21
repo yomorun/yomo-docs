@@ -2,7 +2,8 @@
 
 ## yomo-flow 是什么？
 
-`yomo-flow` 是一个 `Streaming Serverless` function，您只需在该 function 里面编写您的业务逻辑代码对 stream 数据进行计算处理即可。
+`yomo-flow` 是一个 `Streaming Serverless` function，您只需在该 function 里面编写业务逻辑代码，对 stream 数据进行计算处理即可。
+
 例如：
 
 ```go
@@ -20,7 +21,7 @@ func Handler(rxstream rx.RxStream) rx.RxStream {
 
 ## yomo-flow 能做什么？
 
-针对连续高频产生数据的实时计算场景，YoMo 以 [Functional Reactive Programming](https://en.wikipedia.org/wiki/Functional_reactive_programming) 为编程范式，大幅降低面向 stream 编程的复杂度。YoMo 全程使用 `QUIC` 协议传输数据，`yomo-flow` 将 `QUIC Stream` 抽象为 `RxStream`，您可以使用 [Rx](/rx) 提供的各种 `operators` 对 stream 进行操作。
+针对连续高频产生数据的实时计算场景，YoMo 以 [Functional Reactive Programming](https://en.wikipedia.org/wiki/Functional_reactive_programming) 为编程范式，大幅降低面向 network raw stream 编程的复杂度。YoMo 全程使用 `QUIC` 协议传输数据，`yomo-flow` 将 `QUIC Stream` 抽象为 `RxStream`，您可以使用 [Rx](/rx) 提供的各种 `operators` 对 stream 进行操作。
 
 ![Rx](/flow/rx.png)
 
