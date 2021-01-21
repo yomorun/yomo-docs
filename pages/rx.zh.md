@@ -30,7 +30,8 @@ YoMo 全程使用 `QUIC` 协议传输数据，并在 [yomo-flow](/flow) 将 `QUI
 
 * AuditTime - ignore for given time then emit most recent item
 * StdOut - print the item in standard output
-* Y3Decoder- decode the item via [Y3 Codec](https://github.com/yomorun/y3-codec-golang)
+* Subscribe - observe the key of streaming data via [Y3 Codec](https://github.com/yomorun/y3-codec-golang)
+* Y3Decoder - trigger the callback function and decode the data while the key is observed by [Y3 Codec](https://github.com/yomorun/y3-codec-golang)
 
 ### Transforming Observables
 
