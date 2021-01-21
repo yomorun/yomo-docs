@@ -3,7 +3,7 @@ import HeadImg from '../components/HeadImg'
 
 # YoMo
 
-YoMoは、低レイテンシのエッジコンピューティングアプリケーションを構築するためのオープンソースのストリーミングサーバーレスフレームワークです。QUICトランスポートプロトコルと機能的なリアクティブプログラミングインターフェースをベースに構築されており、信頼性が高く、安全で、簡単にリアルタイムのデータ処理を行うことができます。
+YoMo は、低レイテンシのエッジコンピューティングアプリケーションを構築するためのオープンソースのストリーミングサーバーレスフレームワークです。QUIC トランスポートプロトコルと機能的なリアクティブプログラミングインターフェースをベースに構築されており、信頼性が高く、安全で、簡単にリアルタイムのデータ処理を行うことができます。
 
 <HeadImg></HeadImg>
 
@@ -42,7 +42,7 @@ $ cd yomo-app-demo
 
 ![YoMo Tutorial 2](/tutorial-2.png)
 
-YoMo CLIは自動的に以下の内容の`app.go`を作成します。
+YoMo CLI は自動的に以下の内容の`app.go`を作成します。
 
 ```go
 package main
@@ -97,7 +97,7 @@ func Handler(rxstream rx.RxStream) rx.RxStream {
 
 ![YoMo Tutorial 3](/tutorial-3.png)
 
-おめでとうございます。初めてのYoMoアプリケーションを作成しました。
+おめでとうございます。初めての YoMo アプリケーションを作成しました。
 
 ### Optional: Setting $GOPATH and $GOBIN
 
@@ -142,9 +142,10 @@ echo 'export PATH="$GOPATH/bin:$PATH"' >> ~/.bashrc
 
 <div className='plate blue'>
 
-## 🎯 Edge Computingに焦点を当てて
+## 🎯 Edge Computing に焦点を当てて
 
-YoMoが最適です。:
+YoMo が最適です。:
+
 - 遅延に敏感なアプリケーションの作成
 - 高いネットワーク遅延やパケットロスへの対応
 - ストリーム処理による連続的な高周波データへの対応
@@ -157,7 +158,7 @@ YoMoが最適です。:
 
 ## 貢献
 
-まず最初に 貢献を考えてくれてありがとう YoMoをより良いものにしてくれるのは、あなたのような人たちのおかげです。このプロジェクトに参加できる方法はたくさんあります。
+まず最初に 貢献を考えてくれてありがとう YoMo をより良いものにしてくれるのは、あなたのような人たちのおかげです。このプロジェクトに参加できる方法はたくさんあります。
 
 - File a [bug report](https://github.com/yomorun/yomo/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBUG%5D). 使用している YoMo のバージョン、OS、バグを再現するための手順などの情報を必ず記載してください。
 - 新機能の提案。

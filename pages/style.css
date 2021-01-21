@@ -85,14 +85,14 @@ h6 {
 }
 
 code {
-  font-family: "Lucida Console", "Courier New", monospace;
+  font-family: 'Lucida Console', 'Courier New', monospace;
 }
 
 li:first-child {
   margin-top: -10px;
 }
 
-li li{
+li li {
   list-style-type: circle;
   margin: 0;
 }

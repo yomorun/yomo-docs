@@ -65,7 +65,7 @@ $ yomo wf run example/workflow.yaml
 
 运行上述命令之后，YoMo 将会启动 `yomo-zipper`，并监听配置好的端口。
 
-> **注意：** 您还可以选择通过运行 `yomo wf dev` 启动 yomo-zipper，它将自动使用 CELLA 办公室的真实噪声分贝值作为 `yomo-source`，例如：`yomo wf dev example/workflow.yaml`，您可以忽略第4步下载和运行 `yomo-source-example`。
+> **注意：** 您还可以选择通过运行 `yomo wf dev` 启动 yomo-zipper，它将自动使用 CELLA 办公室的真实噪声分贝值作为 `yomo-source`，例如：`yomo wf dev example/workflow.yaml`，您可以忽略第 4 步下载和运行 `yomo-source-example`。
 
 #### 3. 运行 yomo-flow 和 yomo-sink
 
