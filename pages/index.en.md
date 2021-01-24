@@ -11,6 +11,8 @@ YoMo is an open-source Streaming Serverless Framework for building low-latency e
 
 ## Getting Started 👨‍💻
 
+> **Note:** YoMo requires Go 1.15 and above, run `go version` to get the version of Go in your environment, please follow [this link](https://golang.org/doc/install) to install or upgrade if it doesn't fit the requirement.
+
 ### 1. Install CLI
 
 ```bash
