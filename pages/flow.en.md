@@ -8,7 +8,8 @@ For example:
 ```go
 func Handler(rxstream rx.RxStream) rx.RxStream {
 	stream := rxstream.
-		Y3Decoder("0x10", float32(0)).
+		Subscribe(0x10).
+		OnObserve(callback).
 		AuditTime(100 * time.Millisecond).
 		Map(printer).
 		StdOut()
@@ -19,7 +20,7 @@ func Handler(rxstream rx.RxStream) rx.RxStream {
 
 ## What can yomo-flow do?
 
-YoMo uses [Functional Reactive Programming](https://en.wikipedia.org/wiki/Functional_reactive_programming) for programming paradigm, the input parameter of `yomo-flow` is an `RxStream`, the users can use the [operators](http://reactivex.io/documentation/operators.html) in [Rx](http://reactivex.io/) to process the stream data.
+For the real-time processing scenario of continuous high-frequency data, YoMo uses [Functional Reactive Programming](https://en.wikipedia.org/wiki/Functional_reactive_programming) for programming paradigm to reduce the complexity of `streaming computing`. YoMo uses `QUIC` protocol to transfer data, and abstracts `QUIC Stream` into `RxStream` in [yomo-flow](/flow), the users can use the [operators](/rx#supported-operators-in-rxstream) in [Rx](/rx) to process the stream data.
 
 ![Rx](/flow/rx.png)
 
@@ -76,19 +77,37 @@ import (
 	"fmt"
 	"time"
 
+	y3 "github.com/yomorun/y3-codec-golang"
 	"github.com/yomorun/yomo/pkg/rx"
 )
 
+type NoiseData struct {
+	Noise float32 `yomo:"0x11"`
+	Time  int64   `yomo:"0x12"`
+	From  string  `yomo:"0x13"`
+}
+
 var printer = func(_ context.Context, i interface{}) (interface{}, error) {
-	value := i.(float32)
-	fmt.Println("serverless get value:", value)
+	value := i.(NoiseData)
+	fmt.Println("serverless get value:", value.Noise)
 	return value, nil
 }
 
-// Handler will handle data in a reactive way
+var callback = func(v []byte) (interface{}, error) {
+	var mold NoiseData
+	err := y3.ToObject(v, &mold)
+	if err != nil {
+		return nil, err
+	}
+	mold.Noise = mold.Noise / 10
+	return mold, nil
+}
+
+// Handler will handle data in Rx way
 func Handler(rxstream rx.RxStream) rx.RxStream {
 	stream := rxstream.
-		Y3Decoder("0x10", float32(0)).
+		Subscribe(0x10).
+		OnObserve(callback).
 		AuditTime(100 * time.Millisecond).
 		Map(printer).
 		StdOut()
@@ -109,9 +128,9 @@ Congratulations! You have created your first yomo-flow.
 
 ### 4. Modify the code to your business code
 
-1) YoMo encodes the data via [Y3 Codec](https://github.com/yomorun/y3-codec-golang), the `Handler` method in `yomo-flow`, the first step is decoding the data via `Y3`, the first parameter of `Y3Decoder` is the observe `key`, the second parameter uses to store the `decode` value.
+1. YoMo encodes the data via [Y3 Codec](https://github.com/yomorun/y3-codec-golang), the `Handler` method in `yomo-flow`, the first step is decoding the data via `Y3`, the first parameter of `Y3Decoder` is the observe `key`, the second parameter uses to store the `decode` value.
 
-2) Use [operators](http://reactivex.io/documentation/operators.html) to process the stream data.
+2. Use [operators](http://reactivex.io/documentation/operators.html) to process the stream data.
 
 ### Optional: Setting $GOPATH and $GOBIN
 

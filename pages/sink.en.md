@@ -14,8 +14,8 @@ YoMo supports multi `yomo-sink` at the same time, for example, you can show the 
 
 ## How to write yomo-sink?
 
-- [Y3](https://github.com/yomorun/y3-codec-golang) provides Golang SDK, and `Y3` will provide other languages' SDK soon, help users use high-performance codec to transfer data easily, you only need to use `Y3` SDK to `decode` data.
-- [YoMo](https://github.com/yomorun/yomo) provides Golang `QUIC` SDK, just a few lines of code can receive data from YoMo safely and efficiently over `QUIC`. If you are using other programming language, you can find the open-source `QUIC` implementations in [quicwg](https://github.com/quicwg/base-drafts/wiki/Implementations).
+- Decode data via [Y3 Codec](https://github.com/yomorun/y3-codec). [Y3](https://github.com/yomorun/y3-codec-golang) provides Golang SDK, and `Y3` will provide other languages' SDK soon, help users use high-performance codec to transfer data easily, you only need to use `Y3` SDK to `decode` data.
+- Transfer data over `QUIC`. [YoMo](https://github.com/yomorun/yomo) provides Golang `QUIC` SDK, just a few lines of code can receive data from YoMo safely and efficiently over `QUIC`. If you are using other programming language, you can find the open-source `QUIC` implementations in [quicwg](https://github.com/quicwg/base-drafts/wiki/Implementations).
 
 Congratulations! You only need to complete the above two steps to get the real-time data from YoMo, and then store the data to DB or show it to the web page according to the business requirements.
 

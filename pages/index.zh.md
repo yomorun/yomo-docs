@@ -51,20 +51,42 @@ import (
 	"fmt"
 	"time"
 
+	y3 "github.com/yomorun/y3-codec-golang"
 	"github.com/yomorun/yomo/pkg/rx"
 )
 
-var printer = func(_ context.Context, i interface{}) (interface{}, error) {
-	value := i.(float32)
-	fmt.Println("serverless get value:", value)
-	return value, nil
+// KeyNoise 用于通知YoMo只订阅Y3序列化后Tag为0x10的value
+const KeyNoise = 0x10
+
+// NoiseData 描述了Y3序列化后的Tag为0x10的Value所对应的反序列化数据结构
+type NoiseData struct {
+	Noise float32 `yomo:"0x11"`
+	Time  int64   `yomo:"0x12"`
+	From  string  `yomo:"0x13"`
 }
 
-// Handler 将以 Rx 的方式处理数据
+var printer = func(_ context.Context, i interface{}) (interface{}, error) {
+	value := i.(NoiseData)
+	rightNow := time.Now().UnixNano() / int64(time.Millisecond)
+	return fmt.Sprintf("[%s] %d > value: %f ⚡️=%dms", value.From, value.Time, value.Noise, rightNow-value.Time), nil
+}
+
+var callback = func(v []byte) (interface{}, error) {
+	var mold NoiseData
+	err := y3.ToObject(v, &mold)
+	if err != nil {
+		return nil, err
+	}
+	mold.Noise = mold.Noise / 10
+	return mold, nil
+}
+
+// Handler will handle data in Rx way
 func Handler(rxstream rx.RxStream) rx.RxStream {
 	stream := rxstream.
-		Y3Decoder("0x10", float32(0)).
-		AuditTime(100 * time.Millisecond).
+		Subscribe(KeyNoise).
+		OnObserve(callback).
+		Debounce(rxgo.WithDuration(50 * time.Millisecond)).
 		Map(printer).
 		StdOut()
 
@@ -126,6 +148,7 @@ echo 'export PATH="$GOPATH/bin:$PATH"' >> ~/.bashrc
 ## 🎯 YoMo 专注于边缘计算
 
 适合用来：
+
 - 开发对延迟敏感的应用程序。
 - 处理高网络延迟和数据包丢失的情况。
 - 通过流式编程处理连续的高频数据。

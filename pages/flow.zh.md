@@ -2,13 +2,15 @@
 
 ## yomo-flow 是什么？
 
-`yomo-flow` 是一个 `Streaming Serverless` function，您只需在该 function 里面编写您的业务逻辑代码对 stream 数据进行计算处理即可。
+`yomo-flow` 是一个 `Streaming Serverless` function，您只需在该 function 里面编写业务逻辑代码，对 stream 数据进行计算处理即可。
+
 例如：
 
 ```go
 func Handler(rxstream rx.RxStream) rx.RxStream {
 	stream := rxstream.
-		Y3Decoder("0x10", float32(0)).
+		Subscribe(0x10).
+		OnObserve(callback).
 		AuditTime(100 * time.Millisecond).
 		Map(printer).
 		StdOut()
@@ -19,7 +21,7 @@ func Handler(rxstream rx.RxStream) rx.RxStream {
 
 ## yomo-flow 能做什么？
 
-YoMo 以 [Functional Reactive Programming](https://en.wikipedia.org/wiki/Functional_reactive_programming) 为编程范式，`yomo-flow` 的输入数据为 `RxStream`，您可以使用 [Rx](http://reactivex.io/) 的各种 [operators](http://reactivex.io/documentation/operators.html) 对 stream 进行操作。
+针对连续高频产生数据的实时计算场景，YoMo 以 [Functional Reactive Programming](https://en.wikipedia.org/wiki/Functional_reactive_programming) 为编程范式，大幅降低面向 network raw stream 编程的复杂度。YoMo 全程使用 `QUIC` 协议传输数据，`yomo-flow` 将 `QUIC Stream` 抽象为 `RxStream`，您可以使用 [Rx](/rx) 提供的各种 `operators` 对 stream 进行操作。
 
 ![Rx](/flow/rx.png)
 
@@ -32,6 +34,8 @@ YoMo 以 [Functional Reactive Programming](https://en.wikipedia.org/wiki/Functio
 #### 使用 [TakeLast](http://reactivex.io/documentation/operators/takelast.html) 获取最后 n 条数据
 
 ![TakeLast](/flow/takeLast.png)
+
+> 点击[这里](/rx#rxstream-支持的-operators)参考更多的 operators。
 
 ## 如何编写 yomo-flow？
 
@@ -75,19 +79,37 @@ import (
 	"fmt"
 	"time"
 
+	y3 "github.com/yomorun/y3-codec-golang"
 	"github.com/yomorun/yomo/pkg/rx"
 )
 
+type NoiseData struct {
+	Noise float32 `yomo:"0x11"`
+	Time  int64   `yomo:"0x12"`
+	From  string  `yomo:"0x13"`
+}
+
 var printer = func(_ context.Context, i interface{}) (interface{}, error) {
-	value := i.(float32)
-	fmt.Println("serverless get value:", value)
+	value := i.(NoiseData)
+	fmt.Println("serverless get value:", value.Noise)
 	return value, nil
 }
 
-// Handler 将以 Rx 的方式处理数据
+var callback = func(v []byte) (interface{}, error) {
+	var mold NoiseData
+	err := y3.ToObject(v, &mold)
+	if err != nil {
+		return nil, err
+	}
+	mold.Noise = mold.Noise / 10
+	return mold, nil
+}
+
+// Handler will handle data in Rx way
 func Handler(rxstream rx.RxStream) rx.RxStream {
 	stream := rxstream.
-		Y3Decoder("0x10", float32(0)).
+		Subscribe(0x10).
+		OnObserve(callback).
 		AuditTime(100 * time.Millisecond).
 		Map(printer).
 		StdOut()
@@ -108,9 +130,9 @@ func Handler(rxstream rx.RxStream) rx.RxStream {
 
 ### 4. 修改代码为您的业务逻辑
 
-1) YoMo 的数据传输使用高效的 [Y3 Codec](https://github.com/yomorun/y3-codec-golang) 进行编码，在 `yomo-flow` 的 `Handler` 方法里，第一步是使用 `Y3` 进行解码，您只需要修改 `Y3Decoder` 方法的第一个参数为您想监听的 `key`，第二参数为您要解码的值。
+1. YoMo 的数据传输使用高效的 [Y3 Codec](https://github.com/yomorun/y3-codec-golang) 进行编码，在 `yomo-flow` 的 `Handler` 方法里，第一步是使用 `Y3` 进行解码，您只需要修改 `Y3Decoder` 方法的第一个参数为您想监听的 `key`，第二参数为您要解码的值。
 
-2) 使用相应的 [operators](http://reactivex.io/documentation/operators.html) 方法对 stream 进行操作。
+2. 使用相应的 [operators](http://reactivex.io/documentation/operators.html) 方法对 stream 进行操作。
 
 ### Optional: 设置 $GOPATH 和 $GOBIN
 

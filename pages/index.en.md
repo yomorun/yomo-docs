@@ -52,20 +52,43 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/reactivex/rxgo/v2"
+	y3 "github.com/yomorun/y3-codec-golang"
 	"github.com/yomorun/yomo/pkg/rx"
 )
 
-var printer = func(_ context.Context, i interface{}) (interface{}, error) {
-	value := i.(float32)
-	fmt.Println("serverless get value:", value)
-	return value, nil
+// KeyNoise represents the Tag of a Y3 encoded data packet
+const KeyNoise = 0x10
+
+// NoiseData represents the structure of data
+type NoiseData struct {
+	Noise float32 `yomo:"0x11"`
+	Time  int64   `yomo:"0x12"`
+	From  string  `yomo:"0x13"`
 }
 
-// Handler will handle data in a reactive way
+var printer = func(_ context.Context, i interface{}) (interface{}, error) {
+	value := i.(NoiseData)
+	rightNow := time.Now().UnixNano() / int64(time.Millisecond)
+	return fmt.Sprintf("[%s] %d > value: %f ⚡️=%dms", value.From, value.Time, value.Noise, rightNow-value.Time), nil
+}
+
+var callback = func(v []byte) (interface{}, error) {
+	var mold NoiseData
+	err := y3.ToObject(v, &mold)
+	if err != nil {
+		return nil, err
+	}
+	mold.Noise = mold.Noise / 10
+	return mold, nil
+}
+
+// Handler will handle data in Rx way
 func Handler(rxstream rx.RxStream) rx.RxStream {
 	stream := rxstream.
-		Y3Decoder("0x10", float32(0)).
-		AuditTime(100 * time.Millisecond).
+		Subscribe(0x10).
+		OnObserve(callback).
+		Debounce(rxgo.WithDuration(50 * time.Millisecond)).
 		Map(printer).
 		StdOut()
 
@@ -127,6 +150,7 @@ echo 'export PATH="$GOPATH/bin:$PATH"' >> ~/.bashrc
 ## 🎯 Focuses on computing at the edge
 
 YoMo is best for:
+
 - Making latency-sensitive applications.
 - Dealing with high network latency and packet loss.
 - Handling continuous high-frequency data with stream processing.
