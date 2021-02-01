@@ -1,11 +1,14 @@
 import ScrollDown from '../components/ScrollDown'
 import HeadImg from '../components/HeadImg'
+import Anchor from '../components/Anchor'
 
 # YoMo
 
 YoMo は、低レイテンシのエッジコンピューティングアプリケーションを構築するためのオープンソースのストリーミングサーバーレスフレームワークです。QUIC トランスポートプロトコルと機能的なリアクティブプログラミングインターフェースをベースに構築されており、信頼性が高く、安全で、簡単にリアルタイムのデータ処理を行うことができます。
 
 <HeadImg></HeadImg>
+
+<Anchor language='jp'></Anchor>
 
 <div className='plate violet'>
 
