@@ -4,8 +4,8 @@ import { normalizeURL, decode } from '@nuxt/ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _6a9b2b84 = () => interopDefault(import('../node_modules/@nuxt/content-theme-docs/src/pages/releases.vue' /* webpackChunkName: "pages/releases" */))
-const _087459d7 = () => interopDefault(import('../node_modules/@nuxt/content-theme-docs/src/pages/_.vue' /* webpackChunkName: "pages/_" */))
+const _1e32cb6a = () => interopDefault(import('../node_modules/@nuxt/content-theme-docs/src/pages/releases.vue' /* webpackChunkName: "pages/releases" */))
+const _c9aa2620 = () => interopDefault(import('../node_modules/@nuxt/content-theme-docs/src/pages/_.vue' /* webpackChunkName: "pages/_" */))
 
 // TODO: remove in Nuxt 3
 const emptyFn = () => {}
@@ -25,27 +25,27 @@ export const routerOptions = {
 
   routes: [{
     path: "/releases",
-    component: _6a9b2b84,
+    component: _1e32cb6a,
     name: "releases___en"
   }, {
     path: "/zh",
-    component: _087459d7,
+    component: _c9aa2620,
     name: "index___zh"
   }, {
     path: "/zh/releases",
-    component: _6a9b2b84,
+    component: _1e32cb6a,
     name: "releases___zh"
   }, {
     path: "/zh/*",
-    component: _087459d7,
+    component: _c9aa2620,
     name: "all___zh"
   }, {
     path: "/",
-    component: _087459d7,
+    component: _c9aa2620,
     name: "index___en"
   }, {
     path: "/*",
-    component: _087459d7,
+    component: _c9aa2620,
     name: "all___en"
   }],
 

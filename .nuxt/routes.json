@@ -2,37 +2,43 @@
   {
     "name": "releases___en",
     "path": "/releases",
-    "component": "/Users/ivyg/Desktop/tmp/node_modules/@nuxt/content-theme-docs/src/pages/releases.vue",
-    "chunkName": "pages/releases"
+    "component": "/Users/ivyg/Desktop/yomo-docs/node_modules/@nuxt/content-theme-docs/src/pages/releases.vue",
+    "chunkName": "pages/releases",
+    "_name": "_1e32cb6a"
   },
   {
     "name": "index___zh",
     "path": "/zh",
-    "component": "/Users/ivyg/Desktop/tmp/node_modules/@nuxt/content-theme-docs/src/pages/_.vue",
-    "chunkName": "pages/_"
+    "component": "/Users/ivyg/Desktop/yomo-docs/node_modules/@nuxt/content-theme-docs/src/pages/_.vue",
+    "chunkName": "pages/_",
+    "_name": "_c9aa2620"
   },
   {
     "name": "releases___zh",
     "path": "/zh/releases",
-    "component": "/Users/ivyg/Desktop/tmp/node_modules/@nuxt/content-theme-docs/src/pages/releases.vue",
-    "chunkName": "pages/releases"
+    "component": "/Users/ivyg/Desktop/yomo-docs/node_modules/@nuxt/content-theme-docs/src/pages/releases.vue",
+    "chunkName": "pages/releases",
+    "_name": "_1e32cb6a"
   },
   {
     "name": "all___zh",
     "path": "/zh/*",
-    "component": "/Users/ivyg/Desktop/tmp/node_modules/@nuxt/content-theme-docs/src/pages/_.vue",
-    "chunkName": "pages/_"
+    "component": "/Users/ivyg/Desktop/yomo-docs/node_modules/@nuxt/content-theme-docs/src/pages/_.vue",
+    "chunkName": "pages/_",
+    "_name": "_c9aa2620"
   },
   {
     "name": "index___en",
     "path": "/",
-    "component": "/Users/ivyg/Desktop/tmp/node_modules/@nuxt/content-theme-docs/src/pages/_.vue",
-    "chunkName": "pages/_"
+    "component": "/Users/ivyg/Desktop/yomo-docs/node_modules/@nuxt/content-theme-docs/src/pages/_.vue",
+    "chunkName": "pages/_",
+    "_name": "_c9aa2620"
   },
   {
     "name": "all___en",
     "path": "/*",
-    "component": "/Users/ivyg/Desktop/tmp/node_modules/@nuxt/content-theme-docs/src/pages/_.vue",
-    "chunkName": "pages/_"
+    "component": "/Users/ivyg/Desktop/yomo-docs/node_modules/@nuxt/content-theme-docs/src/pages/_.vue",
+    "chunkName": "pages/_",
+    "_name": "_c9aa2620"
   }
 ]
