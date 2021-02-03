@@ -1,0 +1,10 @@
+{
+  "title": "YoMo",
+  "url": "https://yomo.run/",
+  "logo": {
+    "light": "/favicon.ico",
+    "dark": "/favicon.ico"
+  },
+  "github": "yomorun/yomo-docs",
+  "twitter": ""
+}

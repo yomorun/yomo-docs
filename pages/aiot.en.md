@@ -1,1 +1,0 @@
-### Please refer to [this page](https://yomo.run/zh/aiot) for now

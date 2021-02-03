@@ -1,9 +1,0 @@
-{
-  "index": "Home",
-  "source": "yomo-source",
-  "flow": "yomo-flow",
-  "sink": "yomo-sink",
-  "zipper": "yomo-zipper",
-  "rx": "Rx",
-  "aiot": "Use Case"
-}
