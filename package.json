@@ -9,7 +9,6 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "next": "^10.0.3",
     "@nuxt/content-theme-docs": "^0.8.0",
     "nuxt": "^2.14.7"
   }

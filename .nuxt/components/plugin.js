@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 const globalComponents = {
-  AppColorSwitcher: () => import('../../node_modules/@nuxt/content-theme-docs/src/components/global/app/AppColorSwitcher.vue' /* webpackChunkName: "components/app-color-switcher" */).then(c => c.default || c),
   Alert: () => import('../../node_modules/@nuxt/content-theme-docs/src/components/global/base/Alert.vue' /* webpackChunkName: "components/alert" */).then(c => c.default || c),
   Badge: () => import('../../node_modules/@nuxt/content-theme-docs/src/components/global/base/Badge.vue' /* webpackChunkName: "components/badge" */).then(c => c.default || c),
   CodeBlock: () => import('../../node_modules/@nuxt/content-theme-docs/src/components/global/base/CodeBlock.vue' /* webpackChunkName: "components/code-block" */).then(c => c.default || c),
@@ -28,7 +27,8 @@ const globalComponents = {
   IconTranslate: () => import('../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/IconTranslate.vue' /* webpackChunkName: "components/icon-translate" */).then(c => c.default || c),
   IconTwitter: () => import('../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/IconTwitter.vue' /* webpackChunkName: "components/icon-twitter" */).then(c => c.default || c),
   IconX: () => import('../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/IconX.vue' /* webpackChunkName: "components/icon-x" */).then(c => c.default || c),
-  IconXCircle: () => import('../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/IconXCircle.vue' /* webpackChunkName: "components/icon-x-circle" */).then(c => c.default || c)
+  IconXCircle: () => import('../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/IconXCircle.vue' /* webpackChunkName: "components/icon-x-circle" */).then(c => c.default || c),
+  AppColorSwitcher: () => import('../../node_modules/@nuxt/content-theme-docs/src/components/global/app/AppColorSwitcher.vue' /* webpackChunkName: "components/app-color-switcher" */).then(c => c.default || c)
 }
 
 for (const name in globalComponents) {

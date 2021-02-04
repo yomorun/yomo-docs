@@ -1,4 +1,3 @@
-export { default as AppColorSwitcher } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/app/AppColorSwitcher.vue'
 export { default as Alert } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/base/Alert.vue'
 export { default as Badge } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/base/Badge.vue'
 export { default as CodeBlock } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/base/CodeBlock.vue'
@@ -26,6 +25,7 @@ export { default as IconTranslate } from '../../node_modules/@nuxt/content-theme
 export { default as IconTwitter } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/IconTwitter.vue'
 export { default as IconX } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/IconX.vue'
 export { default as IconXCircle } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/IconXCircle.vue'
+export { default as AppColorSwitcher } from '../../node_modules/@nuxt/content-theme-docs/src/components/global/app/AppColorSwitcher.vue'
 export { default as AppCopyButton } from '../../node_modules/@nuxt/content-theme-docs/src/components/app/AppCopyButton.vue'
 export { default as AppDropdown } from '../../node_modules/@nuxt/content-theme-docs/src/components/app/AppDropdown.vue'
 export { default as AppFooter } from '../../node_modules/@nuxt/content-theme-docs/src/components/app/AppFooter.vue'
@@ -38,7 +38,6 @@ export { default as AppSearch } from '../../node_modules/@nuxt/content-theme-doc
 export { default as AppSearchAlgolia } from '../../node_modules/@nuxt/content-theme-docs/src/components/app/AppSearchAlgolia.vue'
 export { default as AppToc } from '../../node_modules/@nuxt/content-theme-docs/src/components/app/AppToc.vue'
 
-export const LazyAppColorSwitcher = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/app/AppColorSwitcher.vue' /* webpackChunkName: "components/app-color-switcher" */).then(c => c.default || c)
 export const LazyAlert = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/base/Alert.vue' /* webpackChunkName: "components/alert" */).then(c => c.default || c)
 export const LazyBadge = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/base/Badge.vue' /* webpackChunkName: "components/badge" */).then(c => c.default || c)
 export const LazyCodeBlock = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/base/CodeBlock.vue' /* webpackChunkName: "components/code-block" */).then(c => c.default || c)
@@ -66,6 +65,7 @@ export const LazyIconTranslate = import('../../node_modules/@nuxt/content-theme-
 export const LazyIconTwitter = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/IconTwitter.vue' /* webpackChunkName: "components/icon-twitter" */).then(c => c.default || c)
 export const LazyIconX = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/IconX.vue' /* webpackChunkName: "components/icon-x" */).then(c => c.default || c)
 export const LazyIconXCircle = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/icons/IconXCircle.vue' /* webpackChunkName: "components/icon-x-circle" */).then(c => c.default || c)
+export const LazyAppColorSwitcher = import('../../node_modules/@nuxt/content-theme-docs/src/components/global/app/AppColorSwitcher.vue' /* webpackChunkName: "components/app-color-switcher" */).then(c => c.default || c)
 export const LazyAppCopyButton = import('../../node_modules/@nuxt/content-theme-docs/src/components/app/AppCopyButton.vue' /* webpackChunkName: "components/app-copy-button" */).then(c => c.default || c)
 export const LazyAppDropdown = import('../../node_modules/@nuxt/content-theme-docs/src/components/app/AppDropdown.vue' /* webpackChunkName: "components/app-dropdown" */).then(c => c.default || c)
 export const LazyAppFooter = import('../../node_modules/@nuxt/content-theme-docs/src/components/app/AppFooter.vue' /* webpackChunkName: "components/app-footer" */).then(c => c.default || c)
