@@ -1,6 +1,13 @@
 import theme from '@nuxt/content-theme-docs'
 
 export default theme({
+  head: {
+    title: 'YoMo!',
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    ]
+  },
   docs: {
     primaryColor: '#E24F55'
   },
@@ -20,8 +27,6 @@ export default theme({
     defaultLocale: 'en'
   },
   buildModules: [
-    ['@nuxtjs/google-analytics', {
-      id: 'UA-47208480-12'
-    }]
+    ['@nuxtjs/google-analytics', { id: 'UA-47208480-12'}],
   ]
 })
