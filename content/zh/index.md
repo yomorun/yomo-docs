@@ -129,7 +129,7 @@ echo 'export PATH="$GOPATH/bin:$PATH"' >> ~/.bashrc
 
 ## 示意图
 
-![yomo-arch](https://yomo.run/yomo-arch-v0.7.png)
+![yomo-arch](/yomo-arch-v0.7.png)
 
 ## 🎯 YoMo 专注于边缘计算
 

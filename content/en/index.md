@@ -130,7 +130,7 @@ echo 'export PATH="$GOPATH/bin:$PATH"' >> ~/.bashrc
 
 ## Demo
 
-![yomo-arch](https://yomo.run/yomo-arch-v0.7.png)
+![yomo-arch](/yomo-arch-v0.7.png)
 
 ## 🎯 Focuses on computing at the edge
 
