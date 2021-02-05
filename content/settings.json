@@ -1,5 +1,6 @@
 {
   "title": "YoMo",
+  "description": "Streaming Serverless Framework",
   "url": "https://yomo.run/",
   "logo": {
     "light": "/favicon.ico",
