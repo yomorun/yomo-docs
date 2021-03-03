@@ -4,162 +4,126 @@ position: 7
 category: Overview
 ---
 
-## 一、硬件准备
+# Use Case：Combined calculation of multiple data sources
 
-### 1、串口服务器
+## Our customer's asked:
 
-型号：ZLAN5144J
+Our client needs to perform a calculation in an environment where high frequency data generation occurs from multiple data sources. A calculation is only performed when data from all the sources has arrived. After calculation, the computed result is sent to the next processing session, and the whole process repeats. 
 
-[商品链接](https://detail.tmall.com/item.htm?spm=a230r.1.14.1.6bf010b51dxgHY&id=605631547897&ns=1&abbucket=2)
+Traditionally, in a scenario where heterogenous data from multiple data sources is collected, developers face several issues related to multi-threading, concurrency, race, locking, cache, among other things. As a result, instead of abstraction and implementation, developers spend time fixing issues. YoMo solves that below:
 
-![ZLAN5144J串口服务器](/aiot/串口服务器.png)
+```go
+var convert = func(v []byte) (interface{}, error) {
+	return y3.ToFloat32(v)
+}
 
-### 2、分贝仪
+var zipper = func(_ context.Context, ia interface{}, ib interface{}) (interface{}, error) {
+	result := ia.(float32) + ib.(float32)
+	return fmt.Sprintf("⚡️ Sum(%s: %f, %s: %f) => Result: %f", "data A", ia.(float32), "data B", ib.(float32), result), nil
+}
 
-型号：485（5v供电）
+// Handler handles two event streams and calculates sum upon data's arrival
+func Handler(rxstream rx.RxStream) rx.RxStream {
+	streamA := rxstream.Subscribe(0x11).OnObserve(convert)
+	streamB := rxstream.Subscribe(0x12).OnObserve(convert)
 
-[商品链接](https://item.taobao.com/item.htm?spm=a1z09.2.0.0.52f72e8dak2nBI&id=584593530438&_u=m2rqbr9oc6ee)
+	// Rx Zip operator: http://reactivex.io/documentation/operators/zip.html
+	stream := streamA.ZipFromIterable(streamB, zipper).StdOut().Encode(0x13)
+	return stream
+}
 
-![分贝仪](/aiot/分贝仪.png)
+```
 
-### 其他配件
+## Code structure
 
-3、485转USB转换器
-> 用于给`分贝仪`供电
++ `source-data-a`: Analog data source A, sending random Float32 numbers [yomo.run/source](https://yomo.run/source)
++ `source-data-b`: Analog data source B, sending random Float32 numbers [yomo.run/source](https://yomo.run/source)
++ `flow`: Combine simulated data sources A and B for calculation [yomo.run/flow](https://yomo.run/flow)
++ `zipper`: Setup a workflow that receives multiple sources and completes the merge calculation [yomo.run/zipper](https://yomo.run/zipper)
 
-[商品链接](https://detail.tmall.com/item.htm?id=524739452854&spm=a1z09.2.0.0.52f72e8dak2nBI&_u=m2rqbr9ofd17)
+## Implementation
 
-![485转usb转换器](/aiot/485转usb转换器.png)
+### 1. Install CLI
 
-4、5v电源
+> **Note:** YoMo requires Go 1.15 and above, run `go version` to get the version of Go in your environment, please follow [this link](https://golang.org/doc/install) to install or upgrade if it doesn't fit the requirement.
 
-5、网线3条
+```bash
+# Ensure use $GOPATH, golang requires main and plugin highly coupled
+○ echo $GOPATH
 
-6、交换机或路由器（需要提供给串口服务器和pc同一网段）
+```
 
-## 二、传感器配置
+if `$GOPATH` is not set, immediately check [Set $GOPATH and $GOBIN](#optional-set-gopath-and-gobin).
 
-### 1、接线及硬件配置
+```bash
+$ GO111MODULE=off go get github.com/yomorun/yomo
 
-（1）接usb转换器方式：接线方式：`噪声分贝传感器`的 `+5V` 对接 `485转usb转换器` 的 `+5V`（5V 电源输入）；`噪声分贝传感器`的 `GND` 对接 `485转usb转换器` 的 `GND`（电源负极）。
+$ cd $GOPATH/src/github.com/yomorun/yomo
 
-`485转usb转换器` 使用 USB 连接电脑之后，将会给 `噪声分贝传感器` 供电。
+$ make install
+```
 
-（2）开发资料下载：
+### 2. Start `flow` for streaming calculation
 
-[下载链接](https://www.prsens.com/index.php?a=shows&catid=45&id=73)
+```bash
+$ cd $GOPATH/src/github.com/yomorun/yomo/example/trainingmodel/flow
 
-下载完成后安装所需驱动，并打开配置软件，使用`485转usb转换器`连接电脑即可。
+$ yomo run
 
-![分贝仪设置](/aiot/分贝仪设置.jpg)
+2021/03/01 19:01:48 Building the Serverless Function File...
+2021/03/01 19:01:49 ✅ Listening on 0.0.0.0:4242
 
-（3）通讯协议示例及解释
+```
 
-举例：
+### 3. Start `zipper` to organize stream processing workflow
 
-![读取模块噪声值举例](/aiot/读取模块噪声值举例.png)
+```bash
+$ cd $GOPATH/src/github.com/yomorun/yomo/example/trainingmodel/zipper
 
-噪声计算：
-当前噪声：02C9（十六进制）=713 → 噪声=71.3dB
+$ yomo wf run
 
-（4）主要产品参数：
+2021/03/01 19:05:55 Found 1 flows in zipper config
+2021/03/01 19:05:55 Flow 1: training on localhost:4242
+2021/03/01 19:05:55 Found 0 sinks in zipper config
+2021/03/01 19:05:55 Running YoMo workflow...
+2021/03/01 19:05:55 ✅ Listening on 0.0.0.0:9999
 
-工作电压：4.5v-5.5v
-传输信号：TTL、RS485、模拟量
-测量范围：30dB~120dB
-响应范围：20HZ~12.5HZ
-噪声精度：±0.5dB
+```
 
-### 2、软件及服务配置
+### 4. Run `source-data-a`
 
-（1）通讯基本参数
-UART接口或485接口均采用ModBus-RTU协议通信，默认通信通信参数：
-波特率∶9600
-数据位∶8位
-奇偶校验方式∶无校验
-停止位长度∶1位
-设备ModBus通信地址为：1
+```bash
+$ cd $GOPATH/src/github.com/yomorun/yomo/example/trainingmodel/source-data-a
 
-（2）数据帧格式定义
-采用Modbus-RTU通讯规约，格式如下:
-初始结构≥4字节的时间
-地址码=1字节
-功能码=1字节
-数据区=N字节
-错误校验=16位CRC码
-结束结构≥4字节的时间
-地址码:默认01
-功能码:主机所发指令功能指示，本模块只用到功能码0x03（读取寄存器数据）
-数据区:数据区是具体通讯数据，注意16bits数据高字节在前!
-CRC码∶二字节的校验码
+$ go run main.go
 
-![主机问询帧结构](/aiot/主机问询帧结构.png)
+2021/03/01 17:35:04 ✅ Connected to yomo-zipper localhost:9999
+2021/03/01 17:35:05 ✅ Emit 123.41881 to yomo-zipper
 
-![应答模块帧结构](/aiot/应答模块帧结构.png)
+```
 
-![寄存器地址](/aiot/寄存器地址.png)
+### 5. Run `source-data-b`
 
-## 三、串口服务器配置
+```bash
+$ cd $GOPATH/src/github.com/yomorun/yomo/example/trainingmodel/source-data-b
 
-### 1、接线方式
+$ go run main.go
 
-一般来说`串口服务器`只需要连接电源、串口、网线。
-其中电源可以采用现场的2线的的电源，可以直接连接电源正负端子，也可以连接包装中的电源适配器。
-其中串口需要根据用户串口设备来连接。将`485正`接到`485A`，`485负`接到`485B`即可。
+2021/03/01 17:35:04 ✅ Connected to yomo-zipper localhost:9999
+2021/03/01 17:35:05 ✅ Emit 36.92933 to yomo-zipper
 
-（1）串口服务器接传感器：
+```
 
-`噪声分贝传感器`的 `TXD/A` 对接 `串口服务器` 的 `485 T+`（485-A 线，串口数据发送）；`噪声分贝传感器`的 `RXD/B` 对接 `串口服务器` 的 `485 T-`（485-B 线，串口数据接收）。（备注：`串口服务器`不支持5v供电给`分贝传感器`，`分贝传感器`需要单独外接电源供电，我是用的`485转usb转换器`连接了正负极插在usb充电口供电，也可以单独外接其它5v供电方式，详情可查看步骤二的[传感器配置](#二、传感器配置)）
+### 6. `flow` will have a constant flow of output
 
-（2）串口服务器接pc：
+```bash
+[StdOut]:  ⚡️ Sum(data A: 89.820206, data B: 1651.740967) => Result: 1741.561157
+[StdOut]:  ⚡️ Sum(data A: 17.577374, data B: 619.293457) => Result: 636.870850
+[StdOut]:  ⚡️ Sum(data A: 114.736366, data B: 964.614075) => Result: 1079.350464
+```
 
-`串口服务器` 网口连接普通网线，可以和计算机直连也可以经过交换机接到网络中。
-具体参数详见产品文档。
-开发资料下载：
-[下载链接](https://www.prsens.com/index.php?a=shows&catid=45&id=73)
+At this point, try to keep `Ctrl-C` dropping `source-data-a`, start it again after a while and see what happens to the `flow` output
 
-### 2、指示灯含义：
+### 7. Congratulations! 
 
-Power灯：电源指示灯
-
-Link灯：当网线连接好时Link为绿色。
-当TCP连接建立后（或处于UDP模式），Link为蓝色（实际带有微弱的绿色光）。可用于判断串口服务器是否和上位机软件建立通讯链路。
-
-Active灯：当网口向串口发送数据时，指示灯为绿色。闪亮的时间比实际通信时间延后长1秒钟，更方便发现短数据通讯。
-当串口向网口发送数据时，指示灯为蓝色和绿色同时亮。由于蓝色比较明亮，所以如果看到蓝色表明存在串口向网口返回数据。这可以判断设备是否有对上位机的命令有响应，如果没有相应则表明串口波特率不对或者串口没有连接好。
-
-### 3、参数配置
-
-（1）软件及驱动安装完毕后，设备硬件连接也完毕后，运行ZLvircom软件如图所示，然后点击“设备管理”如图所示。使用ZLVircom可以在不同的网段内搜索和配置设备参数，非常方便，只要设备和运行ZLVircom的计算机在 **同一个交换机** 下就可以。
-
-![ZLVircom主界面](/aiot/ZLVircom主界面.png)
-
-![设备列表](/aiot/设备列表.png)
-
-从设备列表中看到当前所有在线的设备。点击“编辑设备”进行参数的配置。
-
-![设备参数](/aiot/设备参数.png)
-
-在这个界面中，用户可以设定设备的参数，然后点击“修改设置”，则参数被设置到设备的flash中，掉电不丢失。同时设备会自动重启。
-这里主要配置的参数有：串口设置中的波特率、数据位、校验位；网络设置中的IP地址、子网掩码、网关；有的时候根据计算机软件，还需要配置串口服务器的工作模式。
-
-在本例中，「网络设置」的「IP模式」可以选择“动态获取”，「工作模式」选择“TCP 客户端”，然后「目的IP或域名」和「目的端口」为 `MQTT` 服务器的地址和端口。
-
-接下来进入固件配置中，先创建一个本地根目录用来保存配置参数，然后修改一下设备固定IP地址，接下来需要配置mqtt和json的参数，如图所示。
-
-![固件配置](/aiot/固件配置.png)
-
-MQTT 配置中需要填写服务器ip、端口等信息，用于接收传感器获取到的信息，如图所示。
-如果您使用 [yomo-source-mqtt-broker-starter](https://github.com/yomorun/yomo-source-mqtt-broker-starter) 的示例，MQTT 服务器的「用户名」和「密码」为空，「发布主题」为 `NOISE`（注意为大写）。
-
-![mqtt配置](/aiot/mqtt配置.png)
-
-json配置分为两步，首先点击`JSON 上发`设置 `对应 JSON 关键词` 为 `noise`，`数据来源选择` `modbus-RTU` 设置，全部设置完成之后点击保存全部并退出。退出之后设置json`上发服务器时间`等，设置完成之后别忘了点击`保存JSON设置`。
-
-![json上发](/aiot/json上发.png)
-
-![json配置](/aiot/json配置.png)
-
-设置完成回到固件配置一定要点击下载，将配置烧录到串口服务器中，烧录之后断电也不会清零。
-
-![固件烧录](/aiot/固件烧录.png)
+The problem has been solved in a simpler way than ever before! 
