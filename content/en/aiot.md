@@ -4,9 +4,9 @@ position: 7
 category: Overview
 ---
 
-# Use Case：Combined calculation of multiple data sources
+## Combined calculation of multiple data sources
 
-## Our customer's asked:
+### Our customer's asked:
 
 Our client needs to perform a calculation in an environment where high frequency data generation occurs from multiple data sources. A calculation is only performed when data from all the sources has arrived. After calculation, the computed result is sent to the next processing session, and the whole process repeats. 
 
@@ -34,16 +34,16 @@ func Handler(rxstream rx.RxStream) rx.RxStream {
 
 ```
 
-## Code structure
+### Code structure
 
 + `source-data-a`: Analog data source A, sending random Float32 numbers [yomo.run/source](https://yomo.run/source)
 + `source-data-b`: Analog data source B, sending random Float32 numbers [yomo.run/source](https://yomo.run/source)
 + `flow`: Combine simulated data sources A and B for calculation [yomo.run/flow](https://yomo.run/flow)
 + `zipper`: Setup a workflow that receives multiple sources and completes the merge calculation [yomo.run/zipper](https://yomo.run/zipper)
 
-## Implementation
+### Implementation
 
-### 1. Install CLI
+#### 1. Install CLI
 
 > **Note:** YoMo requires Go 1.15 and above, run `go version` to get the version of Go in your environment, please follow [this link](https://golang.org/doc/install) to install or upgrade if it doesn't fit the requirement.
 
@@ -63,7 +63,7 @@ $ cd $GOPATH/src/github.com/yomorun/yomo
 $ make install
 ```
 
-### 2. Start `flow` for streaming calculation
+#### 2. Start `flow` for streaming calculation
 
 ```bash
 $ cd $GOPATH/src/github.com/yomorun/yomo/example/trainingmodel/flow
@@ -75,7 +75,7 @@ $ yomo run
 
 ```
 
-### 3. Start `zipper` to organize stream processing workflow
+#### 3. Start `zipper` to organize stream processing workflow
 
 ```bash
 $ cd $GOPATH/src/github.com/yomorun/yomo/example/trainingmodel/zipper
@@ -90,7 +90,7 @@ $ yomo wf run
 
 ```
 
-### 4. Run `source-data-a`
+#### 4. Run `source-data-a`
 
 ```bash
 $ cd $GOPATH/src/github.com/yomorun/yomo/example/trainingmodel/source-data-a
@@ -102,7 +102,7 @@ $ go run main.go
 
 ```
 
-### 5. Run `source-data-b`
+#### 5. Run `source-data-b`
 
 ```bash
 $ cd $GOPATH/src/github.com/yomorun/yomo/example/trainingmodel/source-data-b
@@ -114,7 +114,7 @@ $ go run main.go
 
 ```
 
-### 6. `flow` will have a constant flow of output
+#### 6. `flow` will have a constant flow of output
 
 ```bash
 [StdOut]:  ⚡️ Sum(data A: 89.820206, data B: 1651.740967) => Result: 1741.561157
@@ -124,6 +124,6 @@ $ go run main.go
 
 At this point, try to keep `Ctrl-C` dropping `source-data-a`, start it again after a while and see what happens to the `flow` output
 
-### 7. Congratulations! 
+#### 7. Congratulations! 
 
 The problem has been solved in a simpler way than ever before! 
