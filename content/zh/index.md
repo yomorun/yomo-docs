@@ -1,5 +1,6 @@
 ---
 title: YoMo
+description: YoMo 是一个为边缘计算领域打造的低时延流式数据处理框架，基于 QUIC 协议通讯，以 Functional Reactive Programming 为编程范式，构建可靠、安全的低时延实时计算应用，挖掘 5G 潜力，释放实时计算价值。
 position: 1
 category: Overview
 ---

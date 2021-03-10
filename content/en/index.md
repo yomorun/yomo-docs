@@ -1,5 +1,6 @@
 ---
 title: YoMo
+description: YoMo is an open-source Streaming Serverless Framework for building low-latency edge computing applications. Built atop QUIC transport protocol and functional reactive programming interface, it makes real-time data processing reliable, secure, and easy.
 position: 1
 category: Overview
 ---
