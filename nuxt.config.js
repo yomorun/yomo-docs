@@ -6,9 +6,9 @@ export default theme({
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { name: 'description', content: 'YoMo is an open-source Streaming Serverless Framework for building low-latency edge computing applications. Built atop QUIC transport protocol and functional reactive programming interface, it makes real-time data processing reliable, secure, and easy.' },
+      { name: 'description', content: 'YoMo is an open-source Streaming Serverless Framework for building low-latency edge computing applications.' },
       { name: 'twitter:title', content: 'YoMo' },
-      { name: 'twitter:description', content: 'YoMo is an open-source Streaming Serverless Framework for building low-latency edge computing applications. Built atop QUIC transport protocol and functional reactive programming interface, it makes real-time data processing reliable, secure, and easy.' },
+      { name: 'twitter:description', content: 'YoMo is an open-source Streaming Serverless Framework for building low-latency edge computing applications.' },
     ]
   },
   docs: {
