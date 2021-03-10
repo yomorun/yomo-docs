@@ -1,3 +1,5 @@
+YoMo is an open-source Streaming Serverless Framework for building low-latency edge computing applications.
+
 ## Setup
 
 Install dependencies:
