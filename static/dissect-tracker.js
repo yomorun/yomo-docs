@@ -10,5 +10,5 @@
   r.parentNode.insertBefore(v, r)
 })(window, document, 'script', './dissect.js', 'da');
 da('create', 'LICENCE-KEY');
-da('collector', 'ws://3.15.162.146:8080/dc/socket', "websocket");
+da('collector', 'wss://dissect-demo.yomo.run/dc/socket', "websocket");
 da('send', 'tracker');
