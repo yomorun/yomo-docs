@@ -6,7 +6,10 @@ export default theme({
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'twitter:description', name: 'twitter:description', content: 'YoMo is an open-source Streaming Serverless Framework for building low-latency edge computing applications.'}
+      { hid: 'twitter:description', name: 'twitter:description', content: 'YoMo is an open-source Streaming Serverless Framework for building low-latency edge computing applications.'},
+    ],
+    script: [
+      { src: '/dissect-tracker.js', body: true },
     ]
   },
   docs: {
