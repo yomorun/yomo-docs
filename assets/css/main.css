@@ -1,0 +1,15 @@
+body {
+    font-family: 'Exo 2', sans-serif;
+}
+
+pre, 
+code, 
+kbd, 
+samp,
+.prose pre code {
+    font-family: 'IBM Plex Mono', monospace, STFangsong, FangSong, FangSong_GB2312, serif;
+}
+
+.dark-mode .dark\:bg-gray-900 {
+    background-color: #0A001D;
+}

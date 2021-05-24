@@ -19,12 +19,8 @@ module.exports = ({ nuxt }) => ({
   },
   theme: {
     extend: {
-      fontFamily: {
-        sans: ['DM Sans', ...defaultTheme.fontFamily.sans],
-        mono: ['DM Mono', ...defaultTheme.fontFamily.mono]
-      },
       colors: {
-        primary: getColors(nuxt.options.docs.primaryColor)
+        primary: getColors(nuxt.options.docs.primaryColor),
       },
       maxHeight: {
         '(screen-16)': 'calc(100vh - 4rem)'
@@ -80,9 +76,6 @@ module.exports = ({ nuxt }) => ({
           },
           'h3 code': {
             fontWeight: '600'
-          },
-          'pre code': {
-            fontFamily: 'DM Mono'
           },
           'a code': {
             color: theme('colors.primary.500')
