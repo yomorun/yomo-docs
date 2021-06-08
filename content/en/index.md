@@ -8,38 +8,44 @@ YoMo is an open-source Streaming Serverless Framework for building low-latency e
 
 ## Getting Started
 
-> **Note:** YoMo requires Go 1.15 and above, run `go version` to get the version of Go in your environment, please follow [this link](https://golang.org/doc/install) to install or upgrade if it doesn't fit the requirement.
+### Prerequisites
+
+[Install Go](https://golang.org/doc/install)
 
 ### 1. Install CLI
 
-```bash
-# Make sure to use $GOPATH since golang requires the plugin and the main
-# application to be highly coupled
-$ echo $GOPATH
+You can easily install the latest CLI release globally by running:
+
+```sh
+go install github.com/yomorun/cli/yomo@latest
 ```
 
-If `$GOPATH` is not set, check here first: [Setting $GOPATH and $GOBIN](#optional-set-gopath-and-gobin).
+Or you can install the CLI into a specified directory:
 
-```bash
-$ GO111MODULE=off go get github.com/yomorun/yomo
-$ cd $GOPATH/src/github.com/yomorun/yomo
-$ make install
+```sh
+env GOBIN=/bin go install github.com/yomorun/cli/yomo@latest
 ```
 
-![YoMo Tutorial 1](/tutorial-1.png)
-
-### 2. Create a Serverless App
+#### Verify if the CLI was installed successfully
 
 ```bash
-$ mkdir -p $GOPATH/src/github.com/{YOUR_GITHUB_USERNAME} && cd $_
+$ yomo -v
+
+YoMo CLI version: v0.0.2
+```
+
+```bash
 $ yomo init yomo-app-demo
-2020/12/29 13:03:57 Initializing the Serverless app...
-2020/12/29 13:04:00 ✅ Congratulations! You have initialized the serverless app successfully.
-2020/12/29 13:04:00 🎉 You can enjoy the YoMo Serverless via the command: yomo dev
+
+⌛  Initializing the Serverless app...
+✅  Congratulations! You have initialized the serverless function successfully.
+ℹ️   You can enjoy the YoMo Serverless via the command: 
+ℹ️   	DEV: 	yomo dev -n Noise yomo-app-demo/app.go
+ℹ️   	PROD: 	First run source application, eg: go run example/source/main.go
+		Second: yomo run -n yomo-app-demo yomo-app-demo/app.go
+
 $ cd yomo-app-demo
 ```
-
-![YoMo Tutorial 2](/tutorial-2.png)
 
 YoMo CLI will automatically create an `app.go` with the following content:
 
@@ -51,13 +57,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/reactivex/rxgo/v2"
 	y3 "github.com/yomorun/y3-codec-golang"
 	"github.com/yomorun/yomo/pkg/rx"
 )
 
-// KeyNoise represents the Tag of a Y3 encoded data packet
-const KeyNoise = 0x10
+// NoiseDataKey represents the Tag of a Y3 encoded data packet
+const NoiseDataKey = 0x10
 
 // NoiseData represents the structure of data
 type NoiseData struct {
@@ -69,7 +74,8 @@ type NoiseData struct {
 var printer = func(_ context.Context, i interface{}) (interface{}, error) {
 	value := i.(NoiseData)
 	rightNow := time.Now().UnixNano() / int64(time.Millisecond)
-	return fmt.Sprintf("[%s] %d > value: %f ⚡️=%dms", value.From, value.Time, value.Noise, rightNow-value.Time), nil
+	fmt.Println(fmt.Sprintf("[%s] %d > value: %f ⚡️=%dms", value.From, value.Time, value.Noise, rightNow-value.Time))
+	return value.Noise, nil
 }
 
 var callback = func(v []byte) (interface{}, error) {
@@ -85,11 +91,12 @@ var callback = func(v []byte) (interface{}, error) {
 // Handler will handle data in Rx way
 func Handler(rxstream rx.RxStream) rx.RxStream {
 	stream := rxstream.
-		Subscribe(0x10).
+		Subscribe(NoiseDataKey).
 		OnObserve(callback).
-		Debounce(rxgo.WithDuration(50 * time.Millisecond)).
+		Debounce(50).
 		Map(printer).
-		StdOut()
+		StdOut().
+		Encode(0x11)
 
 	return stream
 }
@@ -97,35 +104,32 @@ func Handler(rxstream rx.RxStream) rx.RxStream {
 
 ### 3. Build and Run
 
-Run `yomo dev` from the terminal. You should see the following message:
+Run `yomo dev` from the terminal. you will see the following message:
 
-![YoMo Tutorial 3](/tutorial-3.png)
+```sh
+$ yomo dev
 
-Congratulations! You have created your first YoMo application.
+ℹ️   YoMo serverless function file: app.go
+⌛  Create YoMo serverless instance...
+⌛  YoMo serverless function building...
+✅  Success! YoMo serverless function build.
+ℹ️   YoMo serverless function is running...
+ℹ️   Run: /Users/xiaojianhong/Downloads/yomo-app-demo/sl.yomo
+2021/06/07 12:00:06 Connecting to zipper dev.yomo.run:9000 ...
+2021/06/07 12:00:07 ✅ Connected to zipper dev.yomo.run:9000
+[10.10.79.50] 1623038407236 > value: 1.919251 ⚡️=-25ms
+[StdOut]:  1.9192511
+[10.10.79.50] 1623038407336 > value: 11.370256 ⚡️=-25ms
+[StdOut]:  11.370256
+[10.10.79.50] 1623038407436 > value: 8.672209 ⚡️=-25ms
+[StdOut]:  8.672209
+[10.10.79.50] 1623038407536 > value: 4.826996 ⚡️=-25ms
+[StdOut]:  4.826996
+[10.10.79.50] 1623038407636 > value: 16.201773 ⚡️=-25ms
+[StdOut]:  16.201773
+[10.10.79.50] 1623038407737 > value: 13.875483 ⚡️=-26ms
+[StdOut]:  13.875483
 
-### Optional: Setting $GOPATH and $GOBIN
-
-For the current session only:
-
-```bash
-export GOPATH=~/.go
-export PATH=$GOPATH/bin:$PATH
-```
-
-To permanently set these variables, you need to edit `.zshrc` or `.bashrc`:
-
-For `zsh` users:
-
-```bash
-echo "export GOPATH=~/.go" >> .zshrc
-echo "path+=$GOPATH/bin" >> .zshrc
-```
-
-For `bash` users:
-
-```bash
-echo 'export GOPATH=~/.go' >> .bashrc
-echo 'export PATH="$GOPATH/bin:$PATH"' >> ~/.bashrc
 ```
 
 ## Demo

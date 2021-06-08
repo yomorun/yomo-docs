@@ -8,38 +8,46 @@ YoMo 是一个为边缘计算领域打造的低时延流式数据处理框架，
 
 ## 快速入门
 
-> **注意：** YoMo 的运行环境要求 Go 版本为 1.15 或以上，运行 `go version` 获取当前环境的版本，如果未安装 Go 或者不符合 Go 版本要求时，请安装或者升级 Go 版本。
-安装 Go 环境之后，国内用户可参考 &lt;https://goproxy.cn/&gt; 设置 `GOPROXY`，以便下载 YoMo 项目依赖。
+### 先决条件
+
+确保已安装 Go 编译运行环境，参考 [安装 Go](https://golang.org/doc/install)
 
 ### 1. 安装 CLI
 
-```bash
-# 请使用 $GOPATH，因为 go 语言需要 plugin 和 main 的高度耦合
-$ echo $GOPATH
+可以通过以下的命令全局安装最新发布的 YoMo CLI：
+
+```sh
+go install github.com/yomorun/cli/yomo@latest
 ```
 
-如果未设置 `$GOPATH`，请先看这一节：[设置 $GOPATH 和 $GOBIN](#optional-set-gopath-and-gobin)。
+或者也可以将 CLI 安装在不同的目录：
 
-```bash
-$ GO111MODULE=off go get github.com/yomorun/yomo
-$ cd $GOPATH/src/github.com/yomorun/yomo
-$ make install
+```sh
+env GOBIN=/bin go install github.com/yomorun/cli/yomo@latest
 ```
 
-![YoMo 教程 1](/tutorial-1.png)
+#### 验证 CLI 是否成功安装
+
+```bash
+$ yomo -v
+
+YoMo CLI version: v0.0.2
+```
 
 ### 2. 创建一个 Serverless 应用
 
 ```bash
-$ mkdir -p $GOPATH/src/github.com/{YOUR_GITHUB_USERNAME} && cd $_
 $ yomo init yomo-app-demo
-2020/12/29 13:03:57 Initializing the Serverless app...
-2020/12/29 13:04:00 ✅ Congratulations! You have initialized the serverless app successfully.
-2020/12/29 13:04:00 🎉 You can enjoy the YoMo Serverless via the command: yomo dev
+
+⌛  Initializing the Serverless app...
+✅  Congratulations! You have initialized the serverless function successfully.
+ℹ️   You can enjoy the YoMo Serverless via the command: 
+ℹ️   	DEV: 	yomo dev -n Noise yomo-app-demo/app.go
+ℹ️   	PROD: 	First run source application, eg: go run example/source/main.go
+		Second: yomo run -n yomo-app-demo yomo-app-demo/app.go
+
 $ cd yomo-app-demo
 ```
-
-![YoMo 教程 2](/tutorial-2.png)
 
 YoMo CLI 会自动创建带有以下内容的 `app.go` 文件：
 
@@ -55,8 +63,8 @@ import (
 	"github.com/yomorun/yomo/pkg/rx"
 )
 
-// KeyNoise 用于通知YoMo只订阅Y3序列化后Tag为0x10的value
-const KeyNoise = 0x10
+// NoiseDataKey 用于通知YoMo只订阅Y3序列化后Tag为0x10的value
+const NoiseDataKey = 0x10
 
 // NoiseData 描述了Y3序列化后的Tag为0x10的Value所对应的反序列化数据结构
 type NoiseData struct {
@@ -68,7 +76,8 @@ type NoiseData struct {
 var printer = func(_ context.Context, i interface{}) (interface{}, error) {
 	value := i.(NoiseData)
 	rightNow := time.Now().UnixNano() / int64(time.Millisecond)
-	return fmt.Sprintf("[%s] %d > value: %f ⚡️=%dms", value.From, value.Time, value.Noise, rightNow-value.Time), nil
+	fmt.Println(fmt.Sprintf("[%s] %d > value: %f ⚡️=%dms", value.From, value.Time, value.Noise, rightNow-value.Time))
+	return value.Noise, nil
 }
 
 var callback = func(v []byte) (interface{}, error) {
@@ -84,11 +93,12 @@ var callback = func(v []byte) (interface{}, error) {
 // Handler will handle data in Rx way
 func Handler(rxstream rx.RxStream) rx.RxStream {
 	stream := rxstream.
-		Subscribe(KeyNoise).
+		Subscribe(NoiseDataKey).
 		OnObserve(callback).
-		Debounce(rxgo.WithDuration(50 * time.Millisecond)).
+		Debounce(50).
 		Map(printer).
-		StdOut()
+		StdOut().
+		Encode(0x11)
 
 	return stream
 }
@@ -96,35 +106,32 @@ func Handler(rxstream rx.RxStream) rx.RxStream {
 
 ### 3. 编译并运行
 
-从 terminal 运行 `yomo dev`，可以看到：
+从 terminal 运行 yomo dev，可以看到：
 
-![YoMo 教程 3](/tutorial-3.png)
+```sh
+$ yomo dev
 
-恭喜你！你创建了你的第一个 YoMo 应用。
+ℹ️   YoMo serverless function file: app.go
+⌛  Create YoMo serverless instance...
+⌛  YoMo serverless function building...
+✅  Success! YoMo serverless function build.
+ℹ️   YoMo serverless function is running...
+ℹ️   Run: /Users/xiaojianhong/Downloads/yomo-app-demo/sl.yomo
+2021/06/07 12:00:06 Connecting to zipper dev.yomo.run:9000 ...
+2021/06/07 12:00:07 ✅ Connected to zipper dev.yomo.run:9000
+[10.10.79.50] 1623038407236 > value: 1.919251 ⚡️=-25ms
+[StdOut]:  1.9192511
+[10.10.79.50] 1623038407336 > value: 11.370256 ⚡️=-25ms
+[StdOut]:  11.370256
+[10.10.79.50] 1623038407436 > value: 8.672209 ⚡️=-25ms
+[StdOut]:  8.672209
+[10.10.79.50] 1623038407536 > value: 4.826996 ⚡️=-25ms
+[StdOut]:  4.826996
+[10.10.79.50] 1623038407636 > value: 16.201773 ⚡️=-25ms
+[StdOut]:  16.201773
+[10.10.79.50] 1623038407737 > value: 13.875483 ⚡️=-26ms
+[StdOut]:  13.875483
 
-### Optional: 设置 $GOPATH 和 $GOBIN
-
-针对当前 session：
-
-```bash
-export GOPATH=~/.go
-export PATH=$GOPATH/bin:$PATH
-```
-
-要永久设置这些变量，需要编辑 `.zshrc` 或 `.bashrc`：
-
-`zsh` 用户：
-
-```bash
-echo "export GOPATH=~/.go" >> .zshrc
-echo "path+=$GOPATH/bin" >> .zshrc
-```
-
-`bash` 用户：
-
-```bash
-echo 'export GOPATH=~/.go' >> .bashrc
-echo 'export PATH="$GOPATH/bin:$PATH"' >> ~/.bashrc
 ```
 
 ## 示意图
