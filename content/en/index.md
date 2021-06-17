@@ -184,4 +184,4 @@ If you have any questions, please feel free to come to our [discussion board](ht
 
 [YoMo](https://github.com/yomorun/yomo) ❤️ [Vercel](https://vercel.com/?utm_source=yomorun&utm_campaign=oss) This website is
 
-[![Vercel Logo](https://yomo.run/vercel.svg)](https://vercel.com/?utm_source=yomorun&utm_campaign=oss)
+[![Vercel Logo](https://docs.yomo.run/vercel.svg)](https://vercel.com/?utm_source=yomorun&utm_campaign=oss)
