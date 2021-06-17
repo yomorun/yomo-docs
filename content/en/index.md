@@ -37,14 +37,15 @@ $ yomo -v
 <div>
 	<span><span style="font-weight:bold;">Quiz Time: </span>What do you see?</span>
 	<br>
-    <input type="radio" name="r" value="1" checked>
+    <input type="radio" name="x">
 	<label>YoMo CLI version: v0.0.3</label>
 	<span style="color:lightgreen;"> - You're good to go!</span>
 	<br>
-	<input type="radio" name="r" value="1" checked>
+	<input type="radio" name="x">
 	<label>Something else</label>
 	<span style="color:lightcoral;"> - Please make sure you have installed the latest version!</span>
 	<br>
+	<input type="radio" name="x" checked style="display:none;"></input>
 </div>
 
 #### Create a YoMo App
