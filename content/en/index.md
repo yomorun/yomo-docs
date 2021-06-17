@@ -26,13 +26,30 @@ Or you can install the CLI into a specified directory:
 env GOBIN=/bin go install github.com/yomorun/cli/yomo@latest
 ```
 
-#### Verify if the CLI was installed successfully
+#### Verify Your YoMo CLI Installation
+
+Use the following command to verify that the installation was successful:
 
 ```bash
 $ yomo -v
-
-YoMo CLI version: v0.0.2
 ```
+
+<div>
+	<span><span style="font-weight:bold;">Quiz Time: </span>What do you see?</span>
+	<br>
+    <input type="radio" name="r" value="1" checked>
+	<label>YoMo CLI version: v0.0.3</label>
+	<span style="color:lightgreen;"> - You're good to go!</span>
+	<br>
+	<input type="radio" name="r" value="1" checked>
+	<label>Something else</label>
+	<span style="color:lightcoral;"> - Please make sure you have installed the latest version!</span>
+	<br>
+</div>
+
+#### Create a YoMo App
+
+The `yomo init` command should set up everything for you.
 
 ```bash
 $ yomo init yomo-app-demo

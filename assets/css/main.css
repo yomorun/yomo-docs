@@ -13,3 +13,11 @@ samp,
 .dark-mode .dark\:bg-gray-900 {
     background-color: #0A001D;
 }
+
+input[type="radio"] + label + span {
+  display: none;
+}
+
+input[type="radio"]:checked + label + span {
+  display: inline;
+}
