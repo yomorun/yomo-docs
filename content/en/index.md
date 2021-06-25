@@ -31,7 +31,7 @@ env GOBIN=/bin go install github.com/yomorun/cli/yomo@latest
 Use the following command to verify that the installation was successful:
 
 ```bash
-$ yomo -v
+$ yomo -V
 ```
 
 <div>
